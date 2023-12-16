@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "wheel dark BBS",
+    "photo": "https://bbs.wheel_dark_nurburgring_edition",
+    "price": "$500.000",
+    "stock": "6"
+  },
+  {
+    "id": 2,
+    "title": "spark plug NGK Es8",
+    "photo": "https://NGK_spark_plus_es8",
+    "price": "$3.000",
+    "stock": "3"
+  },
+  {
+    "id": 3,
+    "title": "piston Porsche 918 spyder",
+    "photo": "https://Porsche_piston_918_spyder",
+    "price": "$230.000",
+    "stock": "8"
+  }
+]
