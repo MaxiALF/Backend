@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Juan",
+    "photo": "https://profiles_photo_Juan",
+    "email": "JuanV@gmail.com"
+  },
+  {
+    "id": 2,
+    "name": "Lorena",
+    "photo": "https://Profiles_photos_Lorena",
+    "email": "LoreS@hotmail.com"
+  },
+  {
+    "id": 3,
+    "name": "Viviana",
+    "photo": "https://Profiles_photos_Viviana",
+    "email": "Vivi92@yahoo.com"
+  }
+]
