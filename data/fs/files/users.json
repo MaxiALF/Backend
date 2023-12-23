@@ -1,20 +1,14 @@
 [
   {
-    "id": 1,
+    "id": "675bcbb010c32c9d1f173b5b",
     "name": "Juan",
     "photo": "https://profiles_photo_Juan",
     "email": "JuanV@gmail.com"
   },
   {
-    "id": 2,
+    "id": "a0e0db4a3f232334df5d06c3",
     "name": "Lorena",
     "photo": "https://Profiles_photos_Lorena",
     "email": "LoreS@hotmail.com"
-  },
-  {
-    "id": 3,
-    "name": "Viviana",
-    "photo": "https://Profiles_photos_Viviana",
-    "email": "Vivi92@yahoo.com"
   }
 ]

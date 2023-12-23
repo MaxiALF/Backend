@@ -14,7 +14,6 @@ En ambos archivos el "id" se agrega automaticamente y se autoincrementa. Además
 
 Por último, se toma captura de pantalla de los métodos en ambos archivos para corroborar su correcto funcionamiento en la consola de VSC.
 
-
 # 2º Desafío: Manejo de archivos
 
 Se entregan dos archivos "JS"(JavaScript) y una carpeta "DATA" en donde se guaran archivos "JSON" (Java Script Objet Notation) para los productos y usuarios :
@@ -30,3 +29,11 @@ En ambos archivos el "id" se genera automaticamente y se autoincrementa. Además
 - "readOne(id)" (que retorna el objeto de producto/usuario que se desea buscar).
 
 Por último, se toma captura de pantalla de los métodos en ambos archivos para corroborar su correcto funcionamiento en la consola de VSC.
+
+# 3°Desafío:  Servidor de express
+
+Se entrega dentro de una carpeta "data", las carpetas "memory", "fs" , los archivos "server.js", "package.json" y las dependencias de "nodemon" y "express".
+
+En la carpeta "memory" se encuentran los dos archivos JS de las clases del desafío n°1, mientras que en la carpeta "fs" se encuentran los archivos JS del desafío n°2 con la carpeta "files" que contiene los archivos "json" de cada clase y se modifica la generación del "id" con crypto. Luego en ambas carpetas se agrega para cada archivo el metodo "destroy(id)" para eliminar un objeto de la lista de productos y de usuarios.
+
+En el archivo "server.js" se desarrolla y estructura un servidor basado en express para hacer consultas a los archivos product.fs.js y users.fs.js de la carpeta "fs" mediante el endpoint "GET" utilizando los metodos "read()" y readOne(id), los cuales envían respuesta en caso de ser afirmativas o negativas.
