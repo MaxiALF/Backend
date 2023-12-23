@@ -16,6 +16,20 @@ class userManager {
     readOne(id){
         return userManager.#users.find((each) => each.id === Number(id))
     }
+    destroy(id) {
+        try {
+        const one = userManager.#users.find((each) => each.id === Number(id));
+        if (!one) {
+            throw new Error("Not found user!");
+        } else {
+        userManager.#users = userManager.#users.filter((each) => each.id !== Number(id));
+            console.log("destroy the ID: " + Number(id));
+            return one;
+        }
+        } catch (error) {
+        return error.message;
+        } 
+    }
 }
 
 const users = new userManager();
@@ -36,5 +50,7 @@ users.create({
     email: "SophiS@yahoo.com.ar"
 })
 
-console.log(users.read());
-console.log(users.readOne(3));
+// console.log(users.read());
+// console.log(users.readOne(3));
+// console.log(users.destroy(1));
+// console.log(users.destroy(10));
