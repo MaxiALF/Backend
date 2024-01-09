@@ -24,12 +24,39 @@ class userManager {
         } else {
         userManager.#users = userManager.#users.filter((each) => each.id !== Number(id));
             console.log("destroy the ID: " + Number(id));
-            return one;
+            return one.id;
         }
         } catch (error) {
         return error.message;
         } 
     }
+
+    update(id, data) {
+        try {
+            const upOne = userManager.#users.findIndex(
+                (each) => each.id === Number(id)
+            );
+        
+            if (upOne === -1) {
+                throw new Error(`user with ID ${id} not found.`);
+            }
+        
+            const updateduser = {
+                id: Number(id),
+                name: data.name || userManager.#users[upOne].name,
+                photo: data.photo || userManager.#users[upOne].photo,
+                email: data.email || userManager.#users[upOne].email,
+            };
+        
+            userManager.#users[upOne] = updateduser;
+        
+            console.log(`Updated user with ID: ${id}`);
+            return updateduser.id;
+            } catch (error) {
+            console.error(error.message);
+            return error.message;
+            }
+        }
 }
 
 const users = new userManager();
@@ -54,3 +81,10 @@ users.create({
 // console.log(users.readOne(3));
 // console.log(users.destroy(1));
 // console.log(users.destroy(10));
+// users.update(2, {
+//     name: "sheyla",
+//     photo: "https://profile/photo/img",
+//     email: "sh@hotmail.com",
+// });
+
+// console.log(users.read());
