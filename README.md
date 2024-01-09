@@ -37,3 +37,13 @@ Se entrega dentro de una carpeta "data", las carpetas "memory", "fs" , los archi
 En la carpeta "memory" se encuentran los dos archivos JS de las clases del desafío n°1, mientras que en la carpeta "fs" se encuentran los archivos JS del desafío n°2 con la carpeta "files" que contiene los archivos "json" de cada clase y se modifica la generación del "id" con crypto. Luego en ambas carpetas se agrega para cada archivo el metodo "destroy(id)" para eliminar un objeto de la lista de productos y de usuarios.
 
 En el archivo "server.js" se desarrolla y estructura un servidor basado en express para hacer consultas a los archivos product.fs.js y users.fs.js de la carpeta "fs" mediante el endpoint "GET" utilizando los metodos "read()" y readOne(id), los cuales envían respuesta en caso de ser afirmativas o negativas.
+
+# 1º Pre entrega
+
+Se desarrola  un servidor de express en el puerto 8080 incorporando los 5 middlewares requeridos (json, urlencoded, morgan, error y path).
+
+Se crea el manager de ordenes con sus respectivas propiedades/metodos (en memory y fileSystem) y se agrega el metodo "update(id, data)" a los managers de products y users (también en memory y fileSystem). Luego se enrutan dichos managers con los endpoints requeridos como se solicita.
+
+Se estructura servidor según lo requerido por la imagen de la consigna.
+
+Por último se toman algunas capturas de pantalla para verificar el funcionamiento del servidor en postman.

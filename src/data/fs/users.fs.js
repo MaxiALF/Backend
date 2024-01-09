@@ -85,9 +85,34 @@ class userManager {
       return error.message;
     }
   }
+
+  update(id, data) {
+    try {
+      const upOne = this.users.findIndex((each) => each.id === id);
+      if (upOne === -1) {
+        throw new Error(`user with ID ${id} not found.`);
+      }
+      const updateUser =  {
+        id: id,
+        name: data.name || this.users[upOne].name,
+        photo: data.photo || this.users[upOne].photo,
+        email: data.email || this.users[upOne].email,
+      };
+
+      this.users[upOne] = updateUser;
+
+      fs.writeFileSync(this.path, JSON.stringify(this.users, null, 2));
+
+      console.log(`Updated user with ID: ${id}`);
+      return updateUser;
+    } catch (error) {
+      console.error(error.message);
+      return error.message;
+    }
+  }
 }
 
-const users = new userManager("./fs/files/users.json");
+const users = new userManager("./src/data/fs/files/users.json");
 // async function manage() {
 
   // user.create({
@@ -114,8 +139,22 @@ const users = new userManager("./fs/files/users.json");
   // console.log(user.readOne('b62c850ff2e95d0bbfe3fccf'));
 //   user.destroy('3');
 //   user.destroy('1f05ef82b0928da30a89a3c5');
+
+  // users.update("675bcbb010c32c9d1f173b5b", {
+  //   name: "janet",
+  //   photo: "https://Profiles_photos_janet",
+  //   email: "janet10@yahoo.com",
+  // })
+
+  // console.log(users.read());
 // }
 
 // manage() 
+
+// users.update("675bcbb010c32c9d1f173b5b",{
+//   name: "layla",
+//   photo: "https://lala/photo",
+//   email: "lala@mail",
+// })
 
 export default users;

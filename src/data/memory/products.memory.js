@@ -30,11 +30,39 @@ class productManager {
         } else {
             productManager.#products = productManager.#products.filter((each) => each.id !== Number(id));
             console.log("destroy the ID: " + Number(id));
-            return one;
+            return one.id;
         }
         } catch (error) {
         return error.message;
         } 
+    }
+
+    update(id, data) {
+    try {
+        const upOne = productManager.#products.findIndex(
+            (each) => each.id === Number(id)
+        );
+    
+        if (upOne === -1) {
+            throw new Error(`Product with ID ${id} not found.`);
+        }
+    
+        const updatedProd = {
+            id: Number(id),
+            title: data.title || productManager.#products[upOne].title,
+            photo: data.photo || productManager.#products[upOne].photo,
+            price: data.price || productManager.#products[upOne].price,
+            stock: data.stock || productManager.#products[upOne].stock,
+        };
+    
+        productManager.#products[upOne] = updatedProd;
+    
+        console.log(`Updated product with ID: ${id}`);
+        return updatedProd.id;
+        } catch (error) {
+        console.error(error.message);
+        return error.message;
+        }
     }
 }
 
@@ -64,3 +92,10 @@ products.create({
 // console.log(products.read());
 // console.log(products.readOne(2));
 // console.log(products.destroy(1));
+
+// products.update(2, {
+//     title: "Updated Brake Kit",
+//     price: "$400.00",
+//     });
+
+//     console.log(products.read());
