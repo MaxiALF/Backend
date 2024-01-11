@@ -17,6 +17,21 @@ ordersRouter.post ("/", propsOrders, async (req, res, next) => {
     }
 }); 
 
+
+ordersRouter.get ("/", async (req, res, next) => {
+    let data = await orders.read();
+    
+    try {
+        return res.json({
+            statusCode: 200,
+            response: data,
+        });
+    } catch (error) {
+        return next(error);
+    }
+    
+});
+
 ordersRouter.get ("/:uid", async (req, res, next) =>{
     try {
         const { uid } = req.params;
