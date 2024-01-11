@@ -15,8 +15,7 @@ ordersRouter.post ("/", propsOrders, async (req, res, next) => {
     } catch (error) {
         return next(error)
     }
-}); 
-
+});
 
 ordersRouter.get ("/", async (req, res, next) => {
     let data = await orders.read();
