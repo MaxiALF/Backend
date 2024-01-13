@@ -47,3 +47,23 @@ Se crea el manager de ordenes con sus respectivas propiedades/metodos (en memory
 Se estructura servidor según lo requerido por la imagen de la consigna.
 
 Por último se toman algunas capturas de pantalla para verificar el funcionamiento del servidor en postman.
+
+# 4º Desafío: Websockets + Handlebars
+
+Se estructura un servidor en el puerto 8080.
+
+Se desarrollan con handlebars las vistas:
+
+- "/real": Para mostrar la página con todos los productos en tiempo real.
+- "/form": Para mostrar la vista de un formulario y crear un producto en tiempo real.
+- "/register": Para mostrar la vista  de un formulario para registrar un usuario.
+
+Se utilizan los Sockets:
+
+- "connection": Para configurar los dos puntos de conección del back y del front.
+- "emit(products)": El cúal llama al manager de productos de FS y envía un objeto con todos los productos hacía el socket del cliente.
+- "on(products)": El cúal renderiza con js, en tiempo real, la vista "/real" de handlebars,los productos recibidos.
+- "emit(new product)": El cúal captura con js los datos del formulario y luego se emite el producto y se guarda en el archivo del back.
+- "on(new product)": El cúal guarda el producto en el archivo del servidor y luego se emiten todos los productos actualizados en tiempo real en la vista "/real".
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.

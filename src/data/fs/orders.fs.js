@@ -152,6 +152,6 @@ const orders = new ordersManager("./src/data/fs/files/orders.json");
 // console.log (orders.readOne("675bcbb010c32c9d1f173b5b"));
 // console.log(orders.destroy("e93bebb00564a9ffdaafbea4"));
 
-orders.update("6d29cc6554d779faa5c47b84", 1, "paid" );
+// orders.update("6d29cc6554d779faa5c47b84", 1, "paid" );
 
 export default orders;
