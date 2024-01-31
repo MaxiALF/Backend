@@ -10,4 +10,12 @@ usersRouter.get("/", (req, res, next) =>{
   }
 })
 
+usersRouter.get("/chat", (req, res, next) =>{
+  try {
+    return res.render("chat", {})
+  } catch (error) {
+    next(error)
+  }
+})
+
 export default usersRouter;
