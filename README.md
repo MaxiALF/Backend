@@ -67,3 +67,15 @@ Se utilizan los Sockets:
 - "on(new product)": El cúal guarda el producto en el archivo del servidor y luego se emiten todos los productos actualizados en tiempo real en la vista "/real".
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+# Desafío Complementario:
+
+Se desarrolla un puerto con Express en el puerto "8080".
+
+Se enrrutan los managers de Mongo de products, users y orders.
+
+Se mantiene el "CRUD" tanto en "FS" como en "Memory" y se crea el manager de Mongo para los productos, ususarios y ordenes.
+
+Se crean los metodos "readByEmail" (para traer un usuario mediante el email) y el metodo "read(obj)" (que recibe las propiedades opcionales: "filter" y "sort").
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
