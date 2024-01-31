@@ -1,5 +1,6 @@
 import { Router } from "express";
-import users from "../../data/fs/users.fs.js";
+// import users from "../../data/fs/users.fs.js";
+import { users } from "../../data/mongo/manager.mongo.js";
 import propsUsers from "../../middlewares/propsUsers.js";
 
 const usersRouter = Router();
@@ -13,13 +14,18 @@ usersRouter.post("/", propsUsers, async (req, res, next) => {
       response,
     });
   } catch (error) {
-    return next(error);
+    next(error);
   }
 });
 
 usersRouter.get("/", async (req, res, next) => {
   try {
-    const all = users.read();
+    let filter = {};
+    if (req.query.user_email) {
+      filter = { email: req.query.user_email };
+    }
+    const order = { name: 1 };
+    const all = await users.read({ filter, order });
     return res.json({
       statusCode: 200,
       response: all,
@@ -33,6 +39,33 @@ usersRouter.get("/:uid", async (req, res, next) => {
   try {
     const { uid } = req.params;
     const one = await users.readOne(uid);
+    return res.json({
+      statusCode: 200,
+      response: one,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.put("/:uid", async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+    const data = req.body;
+    const one = await users.update(uid, data);
+    return res.json({
+      statusCode: 200,
+      response: one,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+usersRouter.delete("/:uid", async (req, res, next) => {
+  try {
+    const { uid } = req.params;
+    const one = await users.destroy(uid);
     return res.json({
       statusCode: 200,
       response: one,

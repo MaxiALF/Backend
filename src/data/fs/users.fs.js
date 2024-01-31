@@ -1,5 +1,5 @@
 import fs from "fs";
-import crypto from "crypto"; 
+import crypto from "crypto";
 
 class userManager {
   constructor(path) {
@@ -17,7 +17,7 @@ class userManager {
         fs.writeFileSync(this.path, data);
       }
     } catch (error) {
-      return error.message
+      return error.message;
     }
   }
   async create(data) {
@@ -66,6 +66,20 @@ class userManager {
       return error.message;
     }
   }
+  readByEmail(email) {
+    try {
+      const one = this.users.find((each) => each.email === email);
+      if (!one) {
+        throw new Error("Not found email");
+      } else {
+        console.log(one);
+        return one;
+      }
+    } catch (error) {
+      console.error(error.message);
+      return error.message;
+    }
+  }
   async destroy(id) {
     try {
       const one = this.users.find((each) => each.id === id);
@@ -92,7 +106,7 @@ class userManager {
       if (upOne === -1) {
         throw new Error(`user with ID ${id} not found.`);
       }
-      const updateUser =  {
+      const updateUser = {
         id: id,
         name: data.name || this.users[upOne].name,
         photo: data.photo || this.users[upOne].photo,
@@ -115,46 +129,49 @@ class userManager {
 const users = new userManager("./src/data/fs/files/users.json");
 // async function manage() {
 
-  // user.create({
-  //   name: "Juan",
-  //   photo: "https://profiles_photo_Juan",
-  //   email: "JuanV@gmail.com",
-  // });
+// user.create({
+//   name: "Juan",
+//   photo: "https://profiles_photo_Juan",
+//   email: "JuanV@gmail.com",
+// });
 
-  // user.create({
-  //   name: "Lorena",
-  //   photo: "https://Profiles_photos_Lorena",
-  //   email: "LoreS@hotmail.com",
-  // });
+// user.create({
+//   name: "Lorena",
+//   photo: "https://Profiles_photos_Lorena",
+//   email: "LoreS@hotmail.com",
+// });
 
-  // user.create({
-  //   name: "Viviana",
-  //   photo: "https://Profiles_photos_Viviana",
-  //   email: "Vivi92@yahoo.com",
-  // });
+// user.create({
+//   name: "Viviana",
+//   photo: "https://Profiles_photos_Viviana",
+//   email: "Vivi92@yahoo.com",
+// });
 
-  // console.log(user.users);
-  // console.log(user.read())
-  // console.log(user.readOne("2"));
-  // console.log(user.readOne('b62c850ff2e95d0bbfe3fccf'));
+// console.log(user.users);
+// console.log(user.read())
+// console.log(user.readOne("2"));
+// console.log(user.readOne('b62c850ff2e95d0bbfe3fccf'));
 //   user.destroy('3');
 //   user.destroy('1f05ef82b0928da30a89a3c5');
 
-  // users.update("675bcbb010c32c9d1f173b5b", {
-  //   name: "janet",
-  //   photo: "https://Profiles_photos_janet",
-  //   email: "janet10@yahoo.com",
-  // })
+// users.update("675bcbb010c32c9d1f173b5b", {
+//   name: "janet",
+//   photo: "https://Profiles_photos_janet",
+//   email: "janet10@yahoo.com",
+// })
 
-  // console.log(users.read());
+// console.log(users.read());
 // }
 
-// manage() 
+// manage()
 
 // users.update("675bcbb010c32c9d1f173b5b",{
 //   name: "layla",
 //   photo: "https://lala/photo",
 //   email: "lala@mail",
 // })
+
+// users.readByEmail("smx@mail10")
+// users.readByEmail("LoreS@hotmail.com")
 
 export default users;
