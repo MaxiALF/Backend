@@ -20,12 +20,19 @@ usersRouter.post("/", propsUsers, async (req, res, next) => {
 
 usersRouter.get("/", async (req, res, next) => {
   try {
-    let filter = {};
-    if (req.query.user_email) {
-      filter = { email: req.query.user_email };
+    const filter = {};
+    if (req.query.email) {
+      filter.email = new RegExp(req.query.email.trim(), "i");
     }
-    const order = { name: 1 };
-    const all = await users.read({ filter, order });
+    const sortAndPaginate = {
+      limit: req.query.limit || 10,
+      page: req.query.page || 1,
+      sort: { name: 1 },
+    };
+    if (req.query.name === "desc") {
+      sortAndPaginate.sort.name = -1;
+    }
+    const all = await users.read({ filter, sortAndPaginate });
     return res.json({
       statusCode: 200,
       response: all,

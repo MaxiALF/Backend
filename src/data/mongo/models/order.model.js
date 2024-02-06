@@ -1,4 +1,5 @@
 import { model, Schema, Types } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2"
 
 const collection = "orders";
 const schema = new Schema(
@@ -9,12 +10,16 @@ const schema = new Schema(
     state: {
       type: String,
       default: "reserved",
-      emun: ["reserved", "payed", "deplayed"],
+      emun: ["reserved", "paid", "deplayed"],
     },
   },
   { timestamps: true }
 );
 
+schema.pre("find", function () { this.populate("user_id", "-password -createdAT -updateAt -__v")})
+schema.pre("find", function () { this.populate("product_id", "title price stock")})
+
+schema.plugin(mongoosePaginate)
 const Order = model(collection, schema);
 
 export default Order;

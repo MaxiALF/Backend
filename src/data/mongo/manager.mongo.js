@@ -2,6 +2,7 @@ import User from "./models/user.model.js";
 import Product from "./models/product.model.js";
 import Order from "./models/order.model.js";
 import notFoundOne from "../../utils/notFoundOne.utils.js";
+import { Types } from "mongoose";
 
 class MongoManager {
   constructor(model) {
@@ -16,15 +17,10 @@ class MongoManager {
     }
   }
 
-  async read(obj) {
+  async read({ filter, sortAndPaginate }) {
     try {
-      let { filter, order } = obj;
-      const all = await this.model
-        .find(filter)
-        // .populate("product_id")
-        // .populate("user_id")
-        .sort(order);
-      if (all.length === 0) {
+      const all = await this.model.paginate(filter, sortAndPaginate);
+      if (all.totalPages === 0) {
         const error = new Error("There aren't documents");
         error.statusCode = 404;
         throw error;
@@ -37,14 +33,13 @@ class MongoManager {
 
   async readByEmail(user_email) {
     try {
-      const one = await this.model.findOne({email: user_email});
+      const one = await this.model.findOne({ email: user_email });
       notFoundOne(one);
       return one;
     } catch (error) {
       throw error;
     }
   }
-  
 
   async readOne(id) {
     try {
@@ -66,11 +61,62 @@ class MongoManager {
       throw error;
     }
   }
+
   async destroy(id) {
     try {
       const one = await this.model.findByIdAndDelete(id);
       notFoundOne(one);
       return one;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async stats({ filter }) {
+    try {
+      let stats = await this.model.find(filter).explain("executionStats");
+      stats = {
+        quantity: stats.executionStats.nReturned,
+        time: stats.executionStats.executionTimeMillis,
+      };
+      return stats;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async report(uid) {
+    try {
+      const subTotal = await this.model.aggregate([
+        { $match: { user_id: new Types.ObjectId(uid) } },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product_id",
+          },
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: [{ $arrayElemAt: ["$product_id", 0] }, "$$ROOT"],
+            },
+          },
+        },
+        { $set: { subtotal: { $multiply: ["$price", "$quantity"] } } },
+        { $group: { _id: "$user_id", total: { $sum: "$subtotal" } } },
+        {
+          $project: {
+            _id: 0,
+            user_id: "$_id",
+            total: "$total",
+            date: new Date(),
+          },
+        },
+        // { $merge: { into: "total" } },
+      ]);
+      return subTotal;
     } catch (error) {
       throw error;
     }
