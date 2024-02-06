@@ -79,3 +79,19 @@ Se mantiene el "CRUD" tanto en "FS" como en "Memory" y se crea el manager de Mon
 Se crean los metodos "readByEmail" (para traer un usuario mediante el email) y el metodo "read(obj)" (que recibe las propiedades opcionales: "filter" y "sort").
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+# 2º Pre entrega
+
+Se mantiene la estructura de carpetas y archivos.
+
+Se agrega a mongo los metodos "read( { filter y sortAndPaginate } )" y "report( uid )":
+
+filter : para filtrar por consultas.
+
+sortAndPaginate : para ordenar y paginar mediante consultas ( por defecto: "limit": 10 y "page": 1 ).
+
+report(uid) : para calcular el total a pagar por un usuario según su orden de compra.
+
+Se agrega el endpoint " GET /api/orders/total/:uid " para implementar el metodo "report( uid )" de mongo.
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.

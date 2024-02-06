@@ -20,12 +20,19 @@ productsRouter.post("/", propsProducts, async (req, res, next) => {
 
 productsRouter.get("/", async (req, res, next) => {
   try {
-    let filter = {};
-    if (req.query.product_title) {
-      filter = { title: req.query.product_title };
+    const filter = {};
+    if (req.query.title) {
+      filter.title = new RegExp(req.query.title.trim(), "i" );
     }
-    const order = { price: 1 };
-    const all = await products.read({ filter, order });
+    const sortAndPaginate = {
+      limit: req.query.limit || 10,
+      page: req.query.page || 1,
+      sort: { price: 1 },
+    };
+    if (req.query.price === "desc") {
+      sortAndPaginate.sort.price = -1;
+    }
+    const all = await products.read({ filter, sortAndPaginate });
     return res.json({
       statusCode: 200,
       response: all,

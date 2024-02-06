@@ -1,9 +1,10 @@
 import { model, Schema } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const collection = "users";
 const schema = new Schema(
   {
-    name: { type: String, required: true },
+    name: { type: String, required: true, index: true },
     photo: {
       type: String,
       default:
@@ -15,6 +16,7 @@ const schema = new Schema(
   { timestamps: true }
 );
 
+schema.plugin(mongoosePaginate);
 const User = model(collection, schema);
 
 export default User;
