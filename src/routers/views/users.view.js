@@ -2,7 +2,7 @@ import { Router } from "express";
 
 const usersRouter = Router();
 
-usersRouter.get("/", (req, res, next) =>{
+usersRouter.get("/register", (req, res, next) =>{
   try {
       return res.render("register")
   } catch (error) {
@@ -15,6 +15,14 @@ usersRouter.get("/chat", (req, res, next) =>{
     return res.render("chat", {})
   } catch (error) {
     next(error)
+  }
+})
+
+usersRouter.get("/login", async(req,res,next)=>{
+  try {
+    return res.render("login")
+  } catch (error) {
+    return next(error) 
   }
 })
 

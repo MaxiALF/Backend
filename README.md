@@ -95,3 +95,26 @@ report(uid) : para calcular el total a pagar por un usuario según su orden de c
 Se agrega el endpoint " GET /api/orders/total/:uid " para implementar el metodo "report( uid )" de mongo.
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+
+# 6° Desafío: Implementación de sesiones
+
+Se mantiene la estructura de carpetas y archivos.
+
+En handlebars:
+
+Se modifica las vista de "/form" por "/products/form", con el maquetado de un formulario para la creación de un producto.
+
+También se modifica la vista "/register" por "/auth/register" con el maquetado de un formulario para la creación de un usuario.
+
+Se agrega la vista "/auth/login" con el maquetado de un formulario para el inicio de sesión de un usuario. 
+
+Luego se crea la carpeta "sessions.router.api.js" con los endpoints:
+
+POST /api/session/register para crear un usuario en mongoDB.
+
+POST /api/session/login para iniciar la sesión de un usuario en Mongo.
+
+POST /api/session/signout para cerrar la sesión de un usuario en Mongo.
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
