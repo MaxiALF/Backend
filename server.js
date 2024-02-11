@@ -1,11 +1,13 @@
 import "dotenv/config.js";
-
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import morgan from "morgan";
 import { engine } from "express-handlebars";
-
+import cookieParser from "cookie-parser";
+import expressSession from "express-session";
+import sessionFileStore from "session-file-store";
+import MongoStore from "connect-mongo";
 import router from "./src/routers/index.router.js";
 import errorHandler from "./src/middlewares/errorHandler.js";
 import pathHandler from "./src/middlewares/pathHandler.js";
@@ -16,7 +18,7 @@ import dbConnection from "./src/utils/db.js";
 const server = express();
 const PORT = process.env.PORT || 9000;
 const ready = () => {
-  console.log("Server ready in port " + PORT); 
+  console.log("Server ready in port " + PORT);
   dbConnection();
 };
 const httpServer = createServer(server);
@@ -27,6 +29,44 @@ socketServer.on("connection", socketUtils);
 server.engine("handlebars", engine());
 server.set("view engine", "handlebars");
 server.set("views", __dirname + "/src/views");
+
+const fileStore = sessionFileStore(expressSession);
+
+server.use(cookieParser(process.env.PASS_KEY));
+
+// server.use(
+//   expressSession({
+//     secret: process.env.PASS_KEY,
+//     resave: true,
+//     saveUninitialized: true,
+//     cookie: { maxAge: 60000 },
+//   })
+// );
+
+// server.use(
+//   expressSession({
+//     secret: process.env.PASS_KEY,
+//     resave: true,
+//     saveUninitialized: true,
+//     store: new fileStore({
+//       path: "./src/data/fs/files/sessions",
+//       ttl: 10,
+//       retries: 3,
+//     }),
+//   })
+// );
+
+server.use(
+  expressSession({
+    secret: process.env.PASS_KEY,
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({
+      ttl: 10,
+      mongoUrl: process.env.MONGO_DB_LINK,
+    }),
+  })
+);
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));

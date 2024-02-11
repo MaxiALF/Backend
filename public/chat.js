@@ -29,4 +29,4 @@ socket.on("all", (data) => {
     )
     .join("");
   document.querySelector("#chats").innerHTML = data;
-});
+}); 
