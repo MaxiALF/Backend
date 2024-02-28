@@ -11,7 +11,7 @@ class MongoManager {
   async create(data) {
     try {
       const one = await this.model.create(data);
-      return one._id;
+      return one;
     } catch (error) {
       throw error;
     }
@@ -19,8 +19,9 @@ class MongoManager {
 
   async read({ filter, sortAndPaginate }) {
     try {
+      sortAndPaginate = { ...sortAndPaginate, lean: true }
       const all = await this.model.paginate(filter, sortAndPaginate);
-      if (all.totalPages === 0) {
+      if (all.totalDocs === 0) {
         const error = new Error("There aren't documents");
         error.statusCode = 404;
         throw error;
@@ -31,10 +32,9 @@ class MongoManager {
     }
   }
 
-  async readByEmail(user_email) {
+  async readByEmail(email) {
     try {
-      const one = await this.model.findOne({ email: user_email });
-      notFoundOne(one);
+      const one = await this.model.findOne({ email });
       return one;
     } catch (error) {
       throw error;
@@ -43,7 +43,7 @@ class MongoManager {
 
   async readOne(id) {
     try {
-      const one = await this.model.findById(id);
+      const one = await this.model.findById(id).lean();
       notFoundOne(one);
       return one;
     } catch (error) {
@@ -128,3 +128,4 @@ const users = new MongoManager(User);
 const orders = new MongoManager(Order);
 
 export { products, users, orders };
+export default MongoManager;

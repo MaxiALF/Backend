@@ -20,7 +20,7 @@ usersRouter.get("/chat", (req, res, next) =>{
 
 usersRouter.get("/login", async(req,res,next)=>{
   try {
-    return res.render("login")
+    return res.render("login") 
   } catch (error) {
     return next(error) 
   }

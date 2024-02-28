@@ -6,7 +6,7 @@
     </div>
     <div class="my-3">
       <label for="Photo" class="form-label">Photo</label>
-      <input type="text" class="form-control" id="Photo" required />
+      <input type="text" class="form-control" id="Photo" />
     </div>
     <div class="my-3">
       <label for="Email" class="form-label">Email</label>
@@ -15,8 +15,10 @@
       <label for="Password" class="form-label">Password</label>
       <input type="password" class="form-control" id="Password" required />
     </div>
-    <button type="button" class="btn btn-success m-3">Enviar</button>
+    <button id="register" type="button" class="w-100 btn btn-success mt-3">Enviar</button>
+    <button id="google" type="button" class="w-100 btn btn-success mt-3">Register with Google</button>
   </form>
 </main>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/real.js"></script>
+
+<script src="/scripts/register.js"></script>
+<script src="/scripts/third.js"></script>

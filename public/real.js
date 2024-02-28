@@ -1,6 +1,6 @@
 const socket = io();
 
-socket.on("products", (data) => {
+socket.on("products", (data) => { 
   const prodData = data
     .map(
       (each) => `
@@ -19,10 +19,10 @@ socket.on("products", (data) => {
 
 document.querySelector("#newProduct").addEventListener("click", (event) => {
   event.preventDefault();
-  const title = document.querySelector("#Title").value;
-  const photo = document.querySelector("#Photo").value;
-  const price = document.querySelector("#Price").value;
-  const stock = document.querySelector("#Stock").value;
+  const title = document.querySelector("#title").value;
+  const photo = document.querySelector("#photo").value;
+  const price = document.querySelector("#price").value;
+  const stock = document.querySelector("#stock").value;
   const data = {};
   title && (data.title = title);
   photo && (data.photo = photo);

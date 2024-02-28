@@ -96,7 +96,6 @@ Se agrega el endpoint " GET /api/orders/total/:uid " para implementar el metodo 
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
 
-
 # 6° Desafío: Implementación de sesiones
 
 Se mantiene la estructura de carpetas y archivos.
@@ -107,7 +106,7 @@ Se modifica las vista de "/form" por "/products/form", con el maquetado de un fo
 
 También se modifica la vista "/register" por "/auth/register" con el maquetado de un formulario para la creación de un usuario.
 
-Se agrega la vista "/auth/login" con el maquetado de un formulario para el inicio de sesión de un usuario. 
+Se agrega la vista "/auth/login" con el maquetado de un formulario para el inicio de sesión de un usuario.
 
 Luego se crea la carpeta "sessions.router.api.js" con los endpoints:
 
@@ -116,5 +115,33 @@ POST /api/session/register para crear un usuario en mongoDB.
 POST /api/session/login para iniciar la sesión de un usuario en Mongo.
 
 POST /api/session/signout para cerrar la sesión de un usuario en Mongo.
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento. 
+
+# 7º Desafío: Refactoreo
+
+Se mantiene la estructura de carpetas y archivos.
+
+En handlebars:
+
+En la página de inicio se mantiene la estructura y se agregan botones para la paginación de los productos. Tambíen se agrega un filtro de busqueda para encontrar por nombre o letra uno o varios productos.
+
+Se agrega la vista "orders"  para mostrar las ordenes del usuario logueado. 
+
+En "register" y "login" se agrega un botón de registro o de inicio de sesión mediante Google.
+
+Se modificó el formulario de creación de un producto para que "fecheé" correctamente a la base de datos de mongo.
+
+Endpionts:
+
+POST /api/session/register : crea un usuario en mongo con la estrategia de passport.
+
+POST /api/session/login : inicia la sesión de un usuario en Mongo con estrategia de passport.
+
+POST /api/session/signout : cierra la sesión de un usuario en Mongo verificando el token de "JWT".
+
+POST /api/session/google : obtiene las credenciales de google.
+
+GET /api/session/googl/callback : obtine la callback de la estrategía de google.
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.

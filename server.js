@@ -62,7 +62,7 @@ server.use(
     resave: true,
     saveUninitialized: true,
     store: new MongoStore({
-      ttl: 10,
+      ttl: 7 * 24 * 60 * 60,
       mongoUrl: process.env.MONGO_DB_LINK,
     }),
   })
@@ -70,7 +70,7 @@ server.use(
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
-server.use(express.static(__dirname + "/public"));
+server.use(express.static("public"));
 server.use(morgan("dev"));
 
 server.use("/", router);
