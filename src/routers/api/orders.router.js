@@ -1,17 +1,19 @@
 import { Router } from "express";
-// import orders from "../../data/fs/orders.fs.js";
 import { orders } from "../../data/mongo/manager.mongo.js";
-// import propsOrders from "../../middlewares/propsOrders.js"
+import passCallBack from "../../middlewares/passCallBack.mid.js"
 
 const ordersRouter = Router();
 
-ordersRouter.post("/", async (req, res, next) => {
+ordersRouter.post("/",passCallBack("jwt"), async (req, res, next) => {
   try {
-    const data = req.body;
-    const response = await orders.create(data);
+    const data = {
+      user_id: req.user._id,
+      product_id: req.body.product_id,
+    };
+    const one = await orders.create(data);
     return res.json({
       statusCode: 201,
-      response,
+      response: one,
     });
   } catch (error) {
     return next(error);
@@ -75,7 +77,7 @@ ordersRouter.put("/:oid", async (req, res, next) => {
     const one = await orders.update(oid, data);
     return res.json({
       statusCode: 200,
-      response: one,
+      messasge: "updated!"
     });
   } catch (error) {
     return next(error);
@@ -88,7 +90,7 @@ ordersRouter.delete("/:oid", async (req, res, next) => {
     const response = await orders.destroy(oid);
     return res.json({
       statusCode: 200,
-      response,
+      message: "Deleted!"
     });
   } catch (error) {
     return next(error);

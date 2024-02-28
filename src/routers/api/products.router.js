@@ -1,18 +1,19 @@
 import { Router } from "express";
-// import products from "../../data/fs/products.fs.js"
-import { products } from "../../data/mongo/manager.mongo.js";
+import { products } from "../../data/mongo/manager.mongo.js"
 import propsProducts from "../../middlewares/propsProducts.js";
-import isAdminMid from "../../middlewares/isAdmin.mid.js";
+import isAdmin from "../../middlewares/isAdmin.mid.js";
+import passport from "../../middlewares/passport.mid.js"
 
-const productsRouter = Router();
+const productsRouter = Router(); 
 
-productsRouter.post("/", isAdminMid, propsProducts, async (req, res, next) => {
+productsRouter.post("/", passport.authenticate("jwt", { session: false }), isAdmin, propsProducts, async (req, res, next) => {
   try {
     const data = req.body;
     const response = await products.create(data);
     return res.json({
       statusCode: 201,
       response,
+      message: "product created!",
     });
   } catch (error) {
     return next(error);

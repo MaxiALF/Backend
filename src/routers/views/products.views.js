@@ -1,9 +1,9 @@
 import { Router } from "express";
-import products from "../../data/fs/products.fs.js";
+import { products } from "../../data/mongo/manager.mongo.js";
 
-const ProdRouter = Router();
+const productsRouter = Router();
 
-ProdRouter.get("/real", async (req, res, next) => {
+productsRouter.get("/real", async (req, res, next) => {
   try {
     const all = await products.read();
     return res.render("real", { products: all });
@@ -12,7 +12,7 @@ ProdRouter.get("/real", async (req, res, next) => {
   }
 });
 
-ProdRouter.get("/form", async (req, res, next) => {
+productsRouter.get("/form", async (req, res, next) => {
   try {
     return res.render("form");
   } catch (error) {
@@ -20,4 +20,4 @@ ProdRouter.get("/form", async (req, res, next) => {
   }
 });
 
-export default ProdRouter;
+export default productsRouter;

@@ -1,19 +1,47 @@
 <main>
   <img src="/media/logo2.jpg" alt="logo" class="w-100" />
-  <div class="mt-4 mb-2">
-    <h2 class="m-auto">Bienvenidos a <strong>Max Power Parts.srl</strong>.</h2>
+  <article class="mt-4 mb-4">
+    <h1 class="m-auto">Bienvenidos a <strong class="text-warning">Max Power Parts.srl</strong>.</h1>
     <p class="fs-4 text-center">Nos dedicamos a la venta de autopartes y
       motopartes para cúalquier vehiculo, nacional o importado, trabajando con
       las marcas más reconocidas en todo el mundo.</p>
-  </div>
-  <div class="d-flex flex-wrap justify-content-evenly ">
-    {{#each prod}}
-      <div class="card bg-secondary m-3" style="width: 18rem;">
-        <img src="{{this.photo}}" class="card-img-top" alt="Product Image" />
-        <div class="card-body">
-          <h5 class="card-title">{{this.title}}</h5>
-        </div>
-      </div>
+  </article>
+  <h3 class="mt-4 mb-3 text-center text-warning">Products</h3>
+  <span class="ms-auto justify-content-between align-items-center">
+      <input
+        id="text"
+        type="text"
+        style="width: 360px"
+        class="p-2 text-center mb-3"
+        placeholder="Type for search..."
+      />
+      <button style=" padding: 2px" id="search" class="btn btn-success" >Search</button>
+    </span>
+
+  <section class="d-flex flex-wrap justify-content-evenly">
+    {{#each products}}
+      <a  href="/products/{{this._id}}" class="card bg-secondary m-3" style="width: 300px">
+      
+        <img src="{{this.photo}}" style="height: 240px" class="card-img-top object-fit-cover"  alt="{{this.title}}" />
+      
+        <h5 class="p-2 text-center card-title text-white">{{this.title}}</h5>
+      </a>
     {{/each}}
-  </div>
+  </section>
+  <span class="w-100 d-flex justify-content-center">
+    {{#if prev}}
+      <a
+        class="btn btn-warning fs-5 m-4 mt-0"
+        href="/?title={{filter}}&page={{prev}}"
+      > < </a>
+    {{/if}}
+    {{#if next}}
+      <a
+        class="btn btn-warning fs-5 m-4 mt-0"
+        href="/?title={{filter}}&page={{next}}"
+      > > </a>
+    {{/if}}
+  </span>
+
 </main>
+<script src="/scripts/index.js"></script>

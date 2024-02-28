@@ -1,5 +1,4 @@
 import { Router } from "express";
-// import users from "../../data/fs/users.fs.js";
 import { users } from "../../data/mongo/manager.mongo.js";
 import propsUsers from "../../middlewares/propsUsers.js";
 
