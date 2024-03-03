@@ -15,7 +15,7 @@ selector.addEventListener("click", async () => {
     let response = await fetch("/api/products", opts);
     response = await response.json();
     if (response.statusCode === 201) {
-      alert(response.message);
+      alert("Product created!!");
       location.replace("/");
     } else {
       const error = new Error("title, price & stock are required")

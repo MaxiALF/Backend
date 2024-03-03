@@ -15,7 +15,8 @@ selector.addEventListener("click", async () => {
     let response = await fetch("/api/sessions/register", opts);
     response = await response.json();
     if (response.statusCode === 201){
-      alert(response.message)
+      alert("Registered!")
+      location.replace("/auth/login")
     } else {
       const error = new Error("complete the form please!")
       throw error

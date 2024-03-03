@@ -1,133 +1,114 @@
-import { Router } from "express";
-// import has8char from "../../middlewares/has8char.mid.js";
+import customRouter from "../customRouter.js";
+import has8char from "../../middlewares/has8char.mid.js";
 import passport from "../../middlewares/passport.mid.js";
-// import passCallBackMid from "../../middlewares/passCallBack.mid.js";
-// import isAuth from "../../middlewares/isAuth.mid.js"
+import passCallBackMid from "../../middlewares/passCallBack.mid.js";
 
-const sessionsRouter = Router();
+export default class SessionsRouter extends customRouter {
+  init() {
+    this.post(
+      "/register",
+      ["PUBLIC"],
+      has8char,
+      passCallBackMid("register"),
+      async (req, res, next) => {
+        try {
+          return res.success201(); 
+        } catch (error) {
+          return next(error);
+        }
+      }
+    );
 
-sessionsRouter.post(
-  "/register",
-  passport.authenticate("register", {
-    session: false,
-    failureRedirect: "/api/sessions/badauth",
-  }),
-  // passCallBackMid("register"),
-  async (req, res, next) => {
-    try {
-      return res.json({
-        statusCode: 201,
-        message: "Registered!",
-      });
-    } catch (error) {
-      return next(error);
-    }
-  }
-);
+    this.post(
+      "/login",
+      ["PUBLIC"],
+      passCallBackMid("login"),
+      async (req, res, next) => {
+        try {
+          return res
+            .cookie("token", req.token, {
+              maxAge: 7 * 24 * 60 * 60 * 1000,
+              httpOnly: true,
+            })
+            .success200();
+        } catch (error) {
+          return next(error);
+        }
+      }
+    );
 
-sessionsRouter.post(
-  "/login",
-  passport.authenticate("login", {
-    session: false,
-    failureRedirect: "/api/sessions/badauth",
-  }),
-  // passCallBackMid("login"),
-  async (req, res, next) => {
-    try {
-      return res
-        .cookie("token", req.token, {
-          maxAge: 7 * 24 * 60 * 60 * 1000,
-          httpOnly: true,
-        })
-        .json({
-          statusCode: 200,
-          message: "Logged in!",
-        });
-    } catch (error) {
-      return next(error);
-    }
-  }
-);
+    this.post(
+      "/google",
+      ["PUBLIC"],
+      passport.authenticate("google", { scope: ["email", "profile"] })
+    );
 
-sessionsRouter.post(
-  "/google",
-  passport.authenticate("google", { scope: ["email", "profile"] })
-);  
+    this.get(
+      "/google/callback",
+      ["USER"],
+      passport.authenticate("google", {
+        session: false,
+        failureRedirect: "/api/sessions/badauth",
+      }),
+      async (req, res, next) => {
+        try {
+          return res.success200();
+        } catch (error) {
+          return next(error);
+        }
+      }
+    );
 
-sessionsRouter.get(
-  "/google/callback",
-  passport.authenticate("google", { 
-    session: false,
-    failureRedirect: "/api/sessions/badauth",
-  }),
-  async (req, res, next) => {
-    try {
-      return res.json({
-        statusCode: 200,
-        message: "Logged in with google!",
-        session: req.session
-      });
-    } catch (error) {
-      return next(error);
-    }
-  }
-);
+    this.post(
+      "/",
+      ["PUBLIC"],
+      passport.authenticate("jwt", {
+        session: false,
+        failureRedirect: "/api/sessions/signout/cb",
+      }),
+      async (req, res, next) => {
+        try {
+          const user = {
+            email: req.user.email,
+            role: req.user.role,
+            photo: req.user.photo,
+          };
+          return res.success200(user);
+        } catch (error) {
+          return next(error);
+        }
+      }
+    );
 
-sessionsRouter.post("/", async (req, res, next) => {
-  try {
-    if (req.session.email) {
-      return res.json({
-        statusCode: 200,
-        message: "Session with email: " + req.session.email,
-      });
-    } else {
-      const error = new Error("No Auth");
-      error.statusCode = 401;
-      throw error;
-    }
-  } catch (error) {
-    return next(error);
-  }
-});
+    this.post(
+      "/signout",
+      ["USER", "ADMIN", "PREM"],
+      passCallBackMid("jwt"),
+      async (req, res, next) => {
+        try {
+          return res
+            .clearCookie("token")
+            .success200();
+        } catch (error) {
+          return next(error);
+        }
+      }
+    );
 
-sessionsRouter.post(
-  "/signout",
-  passport.authenticate("jwt", {
-    session: false,
-    failureRedirect: "/api/sessions/signout/cb",
-  }),
-  async (req, res, next) => {
-    try {
-      return res.clearCookie("token").json({
-          statusCode: 200,
-          message: "Signed out!",
-        });
-    } catch (error) {
-      return next(error);
-    }
-  }
-);
-
-sessionsRouter.get("/badauth", (req, res, next) => {
-  try {
-    return res.json({
-      statusCode: 401,
-      message: "Bad auth",
+    this.get("/badauth", ["PUBLIC"], (req, res, next) => {
+      try {
+        return res.error401();
+      } catch (error) {
+        return next(error);
+      }
     });
-  } catch (error) {
-    return next(error);
-  }
-});
 
-sessionsRouter.get("/signout/cb", (req, res, next) => {
-  try {
-    return res.json({
-      statusCode: 400,
-      message: "Already done",
+    this.get("/signout/cb", ["PUBLIC"], (req, res, next) => {
+      try {
+        return res.error400();
+      } catch (error) {
+        return next(error);
+      }
     });
-  } catch (error) {
-    return next(error);
   }
-});
-
-export default sessionsRouter;
+}
