@@ -43,7 +43,7 @@ passport.use(
           req.token = token;
           return done(null, user);
         } else {
-          return done(null, false, { message: "Bad auth!" });
+          return done(null, false, { message: "Bad auth from passport cb!" });
         }
       } catch (error) {
         return done(error);
@@ -139,13 +139,13 @@ passport.use(
           user.password = null;
           return done(null, user);
         } else {
-          return done(null, false);
+          return done(null, false, info);
         }
       } catch (error) {
         return done(error);
       }
     }
-  )
+  ) 
 );
 
 export default passport;

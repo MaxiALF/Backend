@@ -1,29 +1,29 @@
-import { Router } from "express";
+import customRouter from "../customRouter.js";
 
-const usersRouter = Router();
+export default class UserRouter extends customRouter {
+  init() {
+    this.get("/register", ["PUBLIC"], async (req, res, next) => {
+      try {
+        return res.render("register");
+      } catch (error) {
+        next(error);
+      }
+    });
 
-usersRouter.get("/register", (req, res, next) =>{
-  try {
-      return res.render("register")
-  } catch (error) {
-      next(error)
+    this.get("/login", ["PUBLIC"], async (req, res, next) => {
+      try {
+        return res.render("login");
+      } catch (error) {
+        return next(error);
+      }
+    });
+
+    this.get("/chat", ["USER", "ADMIN", "PREM"], (req, res, next) => {
+      try {
+        return res.render("chat", {});
+      } catch (error) {
+        next(error);
+      }
+    });
   }
-})
-
-usersRouter.get("/chat", (req, res, next) =>{
-  try {
-    return res.render("chat", {})
-  } catch (error) {
-    next(error)
-  }
-})
-
-usersRouter.get("/login", async(req,res,next)=>{
-  try {
-    return res.render("login") 
-  } catch (error) {
-    return next(error) 
-  }
-})
-
-export default usersRouter;
+}

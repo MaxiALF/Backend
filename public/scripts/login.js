@@ -13,9 +13,8 @@ selector.addEventListener("click", async () => {
     let response = await fetch("/api/sessions/login", opts);
     response = await response.json();
     if (response.statusCode === 200) {
-      alert(response.message);
+      alert("Logged In!");
       location.replace("/");
-      localStorage.getItem("token", response.token)
     } else {
       const error = new Error("bad auth!")
       throw error

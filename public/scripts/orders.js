@@ -1,4 +1,4 @@
-const selectors = document.querySelectorAll(".deleteButton");
+const selectors = document.querySelectorAll(".btnDelete");
 selectors.forEach((each) =>
   each.addEventListener("click", async (event) => {
     console.log(event.target);
@@ -11,9 +11,9 @@ selectors.forEach((each) =>
       let response = await fetch(url, opts);
       response = await response.json();
       console.log(response);
-      if(response.statusCode===200) {
-        alert(response.message);
-        location.reload()
+      if (response.statusCode === 200) {
+        alert("Deleted!");
+        location.reload();
       }
     } catch (error) {
       alert(error.message);
