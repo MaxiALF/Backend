@@ -27,7 +27,7 @@ export default class OrdersRouter extends customRouter {
       }
     });
 
-    this.get("/", ["ADMIN", "PREM"], async (req, res, next) => {
+    this.get("/", ["ADMIN", "PREM", "USER"], async (req, res, next) => {
       try {
         const filter = {};
         if (req.query.state) {
@@ -37,6 +37,7 @@ export default class OrdersRouter extends customRouter {
           limit: req.query.limit || 10,
           page: req.query.page || 1,
           sort: { user_id: 1 },
+          lean:true
         };
         if (req.query.user_id === "desc") {
           sortAndPaginate.sort.user_id = -1;
@@ -48,7 +49,7 @@ export default class OrdersRouter extends customRouter {
       }
     });
 
-    this.get("/:oid",  ["ADMIN", "PREM"], async (req, res, next) => {
+    this.get("/:oid",  ["ADMIN", "PREM", "USER"], async (req, res, next) => {
       try {
         const { oid } = req.params;
         const one = await orders.readOne(oid);

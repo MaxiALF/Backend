@@ -17,7 +17,7 @@ const schema = new Schema(
 );
 
 schema.pre("find", function () { this.populate("user_id", "-password -createdAT -updateAt -__v")})
-schema.pre("find", function () { this.populate("product_id", "title price stock")})
+schema.pre("find", function () { this.populate("product_id", "title price stock photo")})
 
 schema.plugin(mongoosePaginate)
 const Order = model(collection, schema);

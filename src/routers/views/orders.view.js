@@ -6,23 +6,22 @@ export default class OrderRouter extends customRouter {
   init() {
     this.get(
       "/",
-      ["USER", "PREM"],
+      ["USER", "PREM", "PUBLIC"],
       passCallBack("jwt"),
       async (req, res, next) => {
         try {
           const sortAndPaginate = {
             limit: req.query.limit || 20,
             page: req.query.page || 1,
-            sort: { title: 1 },
-            lean: true,
+            sort: { price: 1 },
           };
           const user = await users.readByEmail(req.user.email);
           const filter = {
             user_id: user._id,
           };
-          const all = await orders.read({ filter, sortAndPaginate, lean: true });
+          const all = await orders.read({filter, sortAndPaginate});
           console.log(all.docs[0].product_id);
-          return res.render("orders", { title: "CART", orders: all.docs });
+          return await res.render("orders", { orders: all.docs });
         } catch (error) {
           return res.render("orders", {
             title: "CART",
