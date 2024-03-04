@@ -116,7 +116,7 @@ POST /api/session/login para iniciar la sesión de un usuario en Mongo.
 
 POST /api/session/signout para cerrar la sesión de un usuario en Mongo.
 
-Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento. 
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
 
 # 7º Desafío: Refactoreo
 
@@ -126,7 +126,7 @@ En handlebars:
 
 En la página de inicio se mantiene la estructura y se agregan botones para la paginación de los productos. Tambíen se agrega un filtro de busqueda para encontrar por nombre o letra uno o varios productos.
 
-Se agrega la vista "orders"  para mostrar las ordenes del usuario logueado. 
+Se agrega la vista "orders"  para mostrar las ordenes del usuario logueado.
 
 En "register" y "login" se agrega un botón de registro o de inicio de sesión mediante Google.
 
@@ -143,5 +143,22 @@ POST /api/session/signout : cierra la sesión de un usuario en Mongo verificando
 POST /api/session/google : obtiene las credenciales de google.
 
 GET /api/session/googl/callback : obtine la callback de la estrategía de google.
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+# 2º Desafío complementario
+
+Se mantiene la estructura de carpetas.
+
+Se crea un "CustomRouter" para los enrutadores:
+
+- De las vistas.
+- De los enpoints.
+- De los recursos.
+- De la apilcación.
+
+Tambíen  se implementa para  cada una de ellas, las respuestas y politicas dependiendo del usuario logueado y de la respuesta de cada recurso.
+
+Luego se utiliza "passport" y "JWT(JSON Web Token)" para el registro, el inicio de sesión , la autenticación y la autorización de un usuario.
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.

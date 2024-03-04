@@ -1,48 +1,56 @@
 <main class="flex-grow-1 w-100 d-flex flex-column">
-  <h2 class="subtitle mt-4 mb-2 text-center">CART</h2>
+  <h2 class="subtitle mt-4 mb-2 text-center">SHOPPING</h2>
   {{#if message}}
-    <h3 class="bg-secondary text-danger text-center m-auto mt-3 mb-3 p-2" style="width: 300px;" style="height: 100px;" >No orders yet!</h3>
+    <h3
+      class="bg-secondary text-danger text-center m-auto mt-3 mb-3 p-2"
+      style="width: 300px;"
+      style="height: 100px;"
+    >No orders yet!</h3>
   {{else}}
+
     <section
       class="d-flex flex-column justify-content-center align-items-center m-auto mt-2 mb-4 bg-secondary"
       style="width: auto;"
     >
-      <article class="w-100 d-flex bg-warning rounded-3">
-        <p style="width: 100px;" class="m-0 p-2 fw-bold"></p>
-        <p
-          style="width: 100px;"
-          class="d-flex justify-content-start align-items-center m-0 p-2 fw-bold text-white fs-4"
-        >Title</p>
-        <p
-          style="width: 100px;"
-          class="d-flex justify-content-end align-items-center m-0 p-2 fw-bold text-white fs-4"
-        >Price</p>
-      </article>
+
       {{#each orders}}
-        <article class="w-100 d-flex border border-warning lean: true">
-          <img
-            src="{{this.product_id.photo}}" 
-            style="height: 150px; width: 200px"
-            class="object-fit-cover rounded-3 "
-            alt="{{this.product_id.title}}"
-          />
-          <p
-            class="d-flex justify-content-start align-items-center m-0 p-2 text-warning "
-            style="width: 100px;"
-          >{{this.product_id.title}}
-          </p>
-          <p
-            class="d-flex justify-content-end align-items-center m-0 p-2"
-            style="width: 100px;"
-          >${{this.product_id.price}}</p>
-          <span
-            class="d-flex justify-content-center align-items-center m-0 p-2"
-            style="width: 60px;"
-          >
-          <button id={{this._id}} class="btn btn-danger btnDelete m-auto">🗑</button>
-          </span>
-        </article>
+        <table class="table table-dark table-striped w-100 m-0">
+          <thead class="bg-warning">
+            <tr class="text-warning fs-4">
+              <th scope="col">{{this.product_id.title}}</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><img
+                  src="{{this.product_id.photo}}"
+                  style="height: 150px; width: 200px"
+                  class="object-fit-cover rounded-3"
+                  alt="{{this.product_id.title}}"
+                /></td>
+              <td
+                class="align-middle text-center"
+              ></td>
+              <td
+                class="align-middle text-center"
+              >${{this.product_id.price}}</td>
+              <td class="align-middle text-center"><span
+                  class="d-flex justify-content-center align-items-center m-0 p-2"
+                  style="width: 60px;"
+                >
+                  <button
+                    id={{this._id}}
+                    class="btn btn-danger btnDelete m-auto"
+                  >🗑</button>
+                </span></td>
+            </tr>
+          </tbody>
+        </table>
       {{/each}}
+
     </section>
     <span class="w-100 d-flex justify-content-center">
       {{#if prev}}
