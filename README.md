@@ -162,3 +162,15 @@ Tambíen  se implementa para  cada una de ellas, las respuestas y politicas depe
 Luego se utiliza "passport" y "JWT(JSON Web Token)" para el registro, el inicio de sesión , la autenticación y la autorización de un usuario.
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+# 9º Desafío Reestructura de nuestro servidor
+
+Se añade, a la estructura actúal, las carpeta "controllers", que se encargará de manejar la logica del endpoint, y la carpeta "services", que servirá de intermediario entre el controlador y la persistencia, para luego estructurar el servidor por capas.
+
+Se desarrola la página de inicio en una aplicación de React JS y se hostea la misma en Vercel.
+
+LINK Vercel: https://mpp-app.vercel.app/
+
+Luego se define, para el entorno, las variables de "producción", "desarrollo" y "prueba".
+
+ Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.

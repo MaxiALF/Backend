@@ -16,7 +16,7 @@ export default class customRouter {
       try {
         await each.apply(this, params);
       } catch (error) {
-        params[1].json({
+        params[0].json({
           statusCode: 500,
           message: error.message,
         });

@@ -139,7 +139,7 @@ passport.use(
           user.password = null;
           return done(null, user);
         } else {
-          return done(null, false, info);
+          return done(null, false);
         }
       } catch (error) {
         return done(error);

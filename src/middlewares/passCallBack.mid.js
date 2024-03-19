@@ -9,7 +9,7 @@ export default (strategy) => {
       if (!user) {
         return res.json({
           statusCode: info.statusCode || 401,
-          message: info.messages || info.toString(),
+          message: info.message || info.toString(),
         });
       }
       req.user = user;
