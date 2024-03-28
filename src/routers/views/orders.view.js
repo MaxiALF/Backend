@@ -1,5 +1,6 @@
 import customRouter from "../customRouter.js";
-import { orders, users } from "../../data/mongo/manager.mongo.js";
+import orders from "../../data/mongo/orders.mongo.js";
+import users from "../../data/mongo/users.mongo.js";
 import passCallBack from "../../middlewares/passCallBack.mid.js";
 
 export default class OrderRouter extends customRouter {
@@ -19,7 +20,7 @@ export default class OrderRouter extends customRouter {
           const filter = {
             user_id: user._id,
           };
-          const all = await orders.read({filter, sortAndPaginate});
+          const all = await orders.read({ filter, sortAndPaginate });
           console.log(all.docs[0].product_id);
           return await res.render("orders", { orders: all.docs });
         } catch (error) {

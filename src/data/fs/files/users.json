@@ -1,26 +1,68 @@
 [
   {
-    "id": "675bcbb010c32c9d1f173b5b",
-    "name": "layla",
-    "photo": "https://lala/photo",
-    "email": "lala@mail"
+    "_id": "5faab1b753de282d81d4477f",
+    "name": "Willy",
+    "photo": "https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg",
+    "email": "will@Gmail.com",
+    "password": "$2b$10$ac1Ufwi9i.5eN1dvxV7Lae1C9oPEhjS598FoPncJlS5fdfvQ6/gD.",
+    "role": 1,
+    "updatedAt": "2024-03-23T02:24:25.378Z",
+    "createdAt": "2024-03-23T02:24:25.378Z"
   },
   {
-    "id": "a0e0db4a3f232334df5d06c3",
-    "name": "Lorena",
-    "photo": "https://Profiles_photos_Lorena",
-    "email": "LoreS@hotmail.com"
+    "_id": "47715a64cd927c38a2ecec99",
+    "name": "kitty",
+    "photo": "https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg",
+    "email": "kit@Gmail.com",
+    "password": "$2b$10$0gciZXTspORHl2EmRkRKKOs1IFngVZPA/OHX6bDaR8wFrObh/RF0G",
+    "role": 0,
+    "updatedAt": "2024-03-23T02:24:46.963Z",
+    "createdAt": "2024-03-23T02:24:46.963Z"
   },
   {
-    "id": "5296ce422e38282c0f3267ac",
-    "name": "tango",
-    "photo": "https://photo-tango",
-    "email": "tg@mail"
+    "_id": "4472a47b1dd93431143d6a21",
+    "name": "Marcela",
+    "photo": "https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg",
+    "email": "mar10@gmail.com",
+    "password": "$2b$10$4z6pj5D/mVHnbvQ514NLjehk0IxpFV.o.OTdaGY09wkJ6CnZvKAOG",
+    "role": 0,
+    "updatedAt": "2024-03-26T05:31:07.823Z",
+    "createdAt": "2024-03-26T05:31:07.823Z"
   },
   {
-    "id": "65e1bc586632bf83e5751e34",
-    "name": "max",
-    "photo": "https://photo-max-v",
-    "email": "smx@mail"
+    "_id": "32d55d1433747bf425f08418",
+    "name": "Hector",
+    "photo": "https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg",
+    "email": "htor@gmail.com",
+    "password": "$2b$10$qLfeXkuetXq2JlTPw3TBnOTjiQnbrr8/HebF8pQq9k0oos2Lr.6Ua",
+    "role": 1,
+    "verified": true,
+    "verifiedCode": "t8sBOxoEKr85re",
+    "updatedAt": "2024-03-26T05:31:40.814Z",
+    "createdAt": "2024-03-26T05:31:40.814Z"
+  },
+  {
+    "_id": "d13b1aecced384dfb2443948",
+    "name": "Tomas",
+    "photo": "https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg",
+    "email": "to+@gmail.com",
+    "password": "$2b$10$hgIoC5zbJGLzBblZC.2Xhu4odcLqBY2HRnEIzj/lFfwn8R4/q4Ghm",
+    "role": 1,
+    "verified": true,
+    "verifiedCode": "jj39BOxoEKrgpel",
+    "updatedAt": "2024-03-26T05:32:08.917Z",
+    "createdAt": "2024-03-26T05:32:08.917Z"
+  },
+  {
+    "_id": "b9768cefcfa62a2a4c8a90f5",
+    "name": "Maxi López",
+    "photo": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+    "email": "max98alf@gmail.com",
+    "password": "$2b$10$pBlg1O7wqomJ8zWeBv/fhee4QQgHSm0JDQG96z4ulWZYRvdTBdyO2",
+    "role": 0,
+    "verified": true,
+    "verifiedCode": "M039BOxoEKrTwi8O",
+    "updatedAt": "2024-03-28T05:08:20.583Z",
+    "createdAt": "2024-03-28T05:08:20.583Z"
   }
 ]

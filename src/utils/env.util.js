@@ -15,4 +15,6 @@ export default {
   GOOGLE_CLIENT: process.env.GOOGLE_CLIENT,
   GIT_ID: process.env.GIT_ID,
   GIT_CLIENT: process.env.GIT_CLIENT,
+  GOOGLE_EMAIL: process.env.GOOGLE_EMAIL, 
+  GOOGLE_PASSWORD: process.env.GOOGLE_PASSWORD
 };

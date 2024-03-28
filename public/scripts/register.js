@@ -14,14 +14,24 @@ selector.addEventListener("click", async () => {
     };
     let response = await fetch("/api/sessions/register", opts);
     response = await response.json();
-    if (response.statusCode === 201){
-      alert("Registered!")
-      location.replace("/auth/login")
+    if (response.statusCode === 201) {
+      swal
+        .fire({
+          title: "User registered!!",
+          icon: "success",
+        })
+        .then(() => {
+          window.location.href = "/auth/login";
+        });
     } else {
-      const error = new Error("complete the form please!")
-      throw error
+      const error = new Error();
+      throw error;
     }
   } catch (error) {
-    alert(error.message);
+    swal.fire({
+      title: "ERROR",
+      text: "Complete the form please",
+      icon: "error",
+    });
   }
 });

@@ -1,15 +1,15 @@
 import customRouter from "../customRouter.js";
-import { products } from "../../data/mongo/manager.mongo.js"; 
+import products from "../../data/mongo/products.mongo.js";
 import ProductRouter from "./products.views.js";
 import UserRouter from "./users.view.js";
 import OrderRouter from "./orders.view.js";
 
-const Order = new OrderRouter()
-const Product = new ProductRouter()
-const User = new UserRouter()
+const Order = new OrderRouter();
+const Product = new ProductRouter();
+const User = new UserRouter();
 
-export default class ViewsRouter extends customRouter{
-  init(){
+export default class ViewsRouter extends customRouter {
+  init() {
     this.router.use("/products", Product.getRouter());
     this.router.use("/auth", User.getRouter());
     this.router.use("/orders", Order.getRouter());
@@ -17,7 +17,7 @@ export default class ViewsRouter extends customRouter{
       try {
         const filter = {};
         if (req.query.title) {
-          filter.title = new RegExp(req.query.title.trim(), "i" );
+          filter.title = new RegExp(req.query.title.trim(), "i");
         }
         const sortAndPaginate = {
           limit: req.query.limit || 6,

@@ -5,9 +5,12 @@ import { Strategy as GithubStrategy } from "passport-github2";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { createHash, verifyHash } from "../utils/hash.util.js";
 import { createToken } from "../utils/token.util.js";
-import { users } from "../data/mongo/manager.mongo.js";
+import UserDTO from "../dto/users.dto.js";
+import dao from "../data/index.factory.js";
+import env from "../utils/env.util.js";
 
-const { GOOGLE_ID, GOOGLE_CLIENT, GIT_ID, GIT_CLIENT, PASS } = process.env;
+const { users } = dao;
+const { GOOGLE_ID, GOOGLE_CLIENT, GIT_ID, GIT_CLIENT, PASS } = env;
 
 passport.use(
   "register",
@@ -19,10 +22,14 @@ passport.use(
         if (!one) {
           let data = req.body;
           data.password = createHash(password);
+          data = new UserDTO(data);
           let user = await users.create(data);
           return done(null, user);
         } else {
-          return done(null, false, { message: "User already exists!", statusCode: 400});
+          return done(null, false, {
+            statusCode: 401,
+            message: "User already exists!",
+          });
         }
       } catch (error) {
         return done(error);
@@ -38,12 +45,13 @@ passport.use(
     async (req, email, password, done) => {
       try {
         const user = await users.readByEmail(email);
-        if (user && verifyHash(password, user.password)) {
+        const verify = verifyHash(password, user.password)
+        if (user?.verified && verify) {
           const token = createToken({ email, role: user.role });
           req.token = token;
           return done(null, user);
         } else {
-          return done(null, false, { message: "Bad auth from passport cb!" });
+          return done(null, false, { message: "Bad auth for passport!" });
         }
       } catch (error) {
         return done(error);
@@ -65,9 +73,9 @@ passport.use(
       try {
         let user = await users.readByEmail(profile.id);
         if (user) {
-          req.session.email = profile.id
-          req.session.role = user.role
-          return done(null, user)
+          req.session.email = profile.id;
+          req.session.role = user.role;
+          return done(null, user);
         } else {
           user = {
             email: profile.id,
@@ -139,13 +147,16 @@ passport.use(
           user.password = null;
           return done(null, user);
         } else {
-          return done(null, false);
+          return done(null, false, {
+            statusCode: 403,
+            message: "Forbiden!",
+          });
         }
       } catch (error) {
         return done(error);
       }
     }
-  ) 
+  )
 );
 
 export default passport;

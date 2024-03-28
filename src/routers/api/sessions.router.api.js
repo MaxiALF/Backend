@@ -9,6 +9,7 @@ import {
   me,
   register,
   signout,
+  verifyAccount,
 } from "../../controllers/sessions.controller.js";
 
 class SessionsRouter extends customRouter {
@@ -49,6 +50,8 @@ class SessionsRouter extends customRouter {
     );
 
     this.get("/badauth", ["PUBLIC"], badauth);
+
+    this.post("/verify", ["PUBLIC"], verifyAccount)
   }
 }
 

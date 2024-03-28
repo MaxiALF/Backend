@@ -9,21 +9,16 @@ import expressSession from "express-session";
 import sessionFileStore from "session-file-store";
 import cors from "cors";
 import args from "./src/utils/args.util.js";
-import MongoStore from "connect-mongo";
-
 import router from "./src/routers/index.router.js";
-
-import errorHandler from "./src/middlewares/errorHandler.js"
+import errorHandler from "./src/middlewares/errorHandler.js";
 import pathHandler from "./src/middlewares/pathHandler.js";
 import __dirname from "./utils.js";
 import socketUtils from "./src/utils/socket.utils.js";
-import dbConnection from "./src/utils/db.js";
 
 const server = express();
-const PORT = process.env.PORT || 8080;
+const PORT = env.PORT || 8080;
 const ready = () => {
   console.log("Server ready in port " + PORT);
-  dbConnection();
   console.log("Mode " + args.env + " online");
 };
 const httpServer = createServer(server);
@@ -37,7 +32,7 @@ server.set("views", __dirname + "/src/views");
 
 const fileStore = sessionFileStore(expressSession);
 
-server.use(cookieParser(process.env.PASS_KEY));
+server.use(cookieParser(env.PASS_KEY));
 
 // server.use(
 //   expressSession({

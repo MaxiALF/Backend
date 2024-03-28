@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "cd9ded1690f4cde7bcd69d54",
+    "text": "original",
+    "product_id": "2edd0b1ea30dc3f9371968d1",
+    "user_id": "2000df1c7de6fdc133554b2c",
+    "updatedAt": "2024-03-24T23:32:41.272Z",
+    "createdAt": "2024-03-24T23:32:41.272Z"
+  },
+  {
+    "_id": "b8edcfa367de2e92de25269c",
+    "text": "Made in Germany",
+    "product_id": "f05bed069039eb88e97ffc12",
+    "user_id": "2000df1c7de6fdc133554b2c",
+    "updatedAt": "2024-03-24T23:33:45.102Z",
+    "createdAt": "2024-03-24T23:33:45.102Z"
+  }
+]

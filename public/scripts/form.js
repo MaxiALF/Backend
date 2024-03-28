@@ -15,13 +15,21 @@ selector.addEventListener("click", async () => {
     let response = await fetch("/api/products", opts);
     response = await response.json();
     if (response.statusCode === 201) {
-      alert("Product created!!");
-      location.replace("/");
+      swal.fire({
+        title: "Product created!",
+        icon: "success"
+      }).then(() => {
+        window.location.href = "/";
+      });
     } else {
-      const error = new Error("title, price & stock are required")
+      const error = new Error()
       throw error
     }
   } catch (error) {
-    alert(error.message);
+    swal.fire({
+      title: "ERROR",
+      text: "title, price & stock are required",
+      icon: "error"
+    });;
   } 
 });

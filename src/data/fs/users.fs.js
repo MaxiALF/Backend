@@ -1,5 +1,5 @@
 import fs from "fs";
-import crypto from "crypto";
+import notFoundOne from "../../utils/notFoundOne.utils.js";
 
 class userManager {
   constructor(path) {
@@ -17,161 +17,91 @@ class userManager {
         fs.writeFileSync(this.path, data);
       }
     } catch (error) {
-      return error.message;
+      throw error;
     }
   }
+
   async create(data) {
     try {
-      if (!data) {
-        throw new Error("please  insert data");
-      } else {
-        const user = {
-          id: crypto.randomBytes(12).toString("hex"),
-          name: data.name,
-          photo: data.photo,
-          email: data.email,
-        };
-        this.users.push(user);
-        await fs.promises.writeFile(
-          this.path,
-          JSON.stringify(this.users, null, 2)
-        );
-        console.log("Created ID: " + user.id);
-        return user.id;
-      }
+      this.users.push(data);
+      const jsonData = JSON.stringify(this.users, null, 2);
+      await fs.promises.writeFile(this.path, jsonData);
+      return data;
     } catch (error) {
-      return error.message;
+      throw error;
     }
   }
-  read() {
+
+  read({ filter, sortAndPaginate }) {
     try {
       if (this.users.length === 0) {
-        throw new Error("Not found users!");
+        const error = new Error("Not found!");
+        error.statusCode = 404;
+        throw error;
       } else {
         return this.users;
       }
     } catch (error) {
-      return error.message;
+      throw error;
     }
   }
+
   readOne(id) {
     try {
-      const one = this.users.find((each) => each.id === id);
+      const one = this.users.find((each) => each._id === id);
       if (!one) {
-        throw new Error("Not found user!");
+        const error = new Error("Not found!");
+        error.statusCode = 404;
+        throw error;
       } else {
         return one;
       }
     } catch (error) {
-      return error.message;
+      throw error;
     }
   }
+
   readByEmail(email) {
     try {
       const one = this.users.find((each) => each.email === email);
       if (!one) {
-        throw new Error("Not found email");
+        return null;
       } else {
-        console.log(one);
         return one;
       }
     } catch (error) {
-      console.error(error.message);
-      return error.message;
+      throw error;
     }
   }
+
   async destroy(id) {
     try {
-      const one = this.users.find((each) => each.id === id);
-      if (!one) {
-        throw new Error("Not found users!");
-      } else {
-        this.users = this.users.filter((each) => each.id !== id);
-        await fs.promises.writeFile(
-          this.path,
-          JSON.stringify(this.users, null, 2)
-        );
-        console.log("destroy the ID: " + id);
-        return one;
-      }
+      const one = this.readOne(id);
+      notFoundOne(one);
+      this.users = this.users.filter((each) => each._id !== id);
+      const jsonData = JSON.stringify(this.users, null, 2);
+      await fs.promises.writeFile(this.path, jsonData);
+      return one;
     } catch (error) {
-      console.log(error.message);
-      return error.message;
+      throw error;
     }
   }
 
-  update(id, data) {
+  async update(uid, data) {
     try {
-      const upOne = this.users.findIndex((each) => each.id === id);
-      if (upOne === -1) {
-        throw new Error(`user with ID ${id} not found.`);
+      const one = this.readOne(uid);
+      notFoundOne(one);
+      for (let each in data) {
+        one[each] = data[each];
       }
-      const updateUser = {
-        id: id,
-        name: data.name || this.users[upOne].name,
-        photo: data.photo || this.users[upOne].photo,
-        email: data.email || this.users[upOne].email,
-      };
-
-      this.users[upOne] = updateUser;
-
-      fs.writeFileSync(this.path, JSON.stringify(this.users, null, 2));
-
-      console.log(`Updated user with ID: ${id}`);
-      return updateUser;
+      const jsonData = JSON.stringify(this.users, null, 2);
+      await fs.promises.writeFile(this.path, jsonData);
+      return one;
     } catch (error) {
-      console.error(error.message);
-      return error.message;
+      throw error;
     }
   }
 }
 
 const users = new userManager("./src/data/fs/files/users.json");
-// async function manage() {
-
-// user.create({
-//   name: "Juan",
-//   photo: "https://profiles_photo_Juan",
-//   email: "JuanV@gmail.com",
-// });
-
-// user.create({
-//   name: "Lorena",
-//   photo: "https://Profiles_photos_Lorena",
-//   email: "LoreS@hotmail.com",
-// });
-
-// user.create({
-//   name: "Viviana",
-//   photo: "https://Profiles_photos_Viviana",
-//   email: "Vivi92@yahoo.com",
-// });
-
-// console.log(user.users);
-// console.log(user.read())
-// console.log(user.readOne("2"));
-// console.log(user.readOne('b62c850ff2e95d0bbfe3fccf'));
-//   user.destroy('3');
-//   user.destroy('1f05ef82b0928da30a89a3c5');
-
-// users.update("675bcbb010c32c9d1f173b5b", {
-//   name: "janet",
-//   photo: "https://Profiles_photos_janet",
-//   email: "janet10@yahoo.com",
-// })
-
-// console.log(users.read());
-// }
-
-// manage()
-
-// users.update("675bcbb010c32c9d1f173b5b",{
-//   name: "layla",
-//   photo: "https://lala/photo",
-//   email: "lala@mail",
-// })
-
-// users.readByEmail("smx@mail10")
-// users.readByEmail("LoreS@hotmail.com")
-
 export default users;

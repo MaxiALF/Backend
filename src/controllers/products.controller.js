@@ -51,7 +51,7 @@ class ProductsController {
       const { pid } = req.params;
       const data = req.body;
       const response = await this.service.update(pid, data);
-      return success200(response);
+      return res.success200(response);
     } catch (error) {
       return next(error);
     }
@@ -61,7 +61,7 @@ class ProductsController {
     try {
       const { pid } = req.params;
       const response = await this.service.destroy(pid);
-      return success200(response);
+      return res.success200(response);
     } catch (error) {
       return next(error);
     }

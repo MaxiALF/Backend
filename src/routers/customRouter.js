@@ -1,6 +1,7 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-import { users } from "../data/mongo/manager.mongo.js";
+import dao from "../data/index.factory.js";
+const { users } = dao
 
 export default class customRouter {
   constructor() {
@@ -16,7 +17,7 @@ export default class customRouter {
       try {
         await each.apply(this, params);
       } catch (error) {
-        params[0].json({
+        params[1].json({
           statusCode: 500,
           message: error.message,
         });
