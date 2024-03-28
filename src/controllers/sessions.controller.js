@@ -1,5 +1,13 @@
+import service from "../services/users.service.js";
+
 class SessionsController {
+  constructor() {
+    this.service = service;
+  } 
+
   register = async (req, res, next) => {
+    const { email, name, verifiedCode } = req.user;
+    await this.service.register({ email, name, verifiedCode });
     try {
       return res.success201("Registered!");
     } catch (error) {
@@ -56,9 +64,38 @@ class SessionsController {
       return next(error);
     }
   };
+
+  // verifiedCode = async(req, res, next) =>{
+  //   try {
+  //     return res.success200("User verified!!")
+  //   } catch (error) {
+  //     return next(error)
+  //   }
+  // }
+
+  verifyAccount = async (req, res, next) => {
+    try {
+      const { email, verifiedCode } = req.body;
+      const user = await service.readByEmail(email);
+      if (user.verifiedCode === verifiedCode) {
+        await service.update(user._id, { verified: true });
+        return res.json({
+          statusCode: 200,
+          message: "verified user!",
+        });
+      } else {
+        return res.json({
+          statusCode: 400,
+          message: "Invalid verified token!",
+        });
+      }
+    } catch (error) {
+      return next(error);
+    }
+  };
 }
 
 export default SessionsController;
 const controller = new SessionsController();
-const { register, login, google, me, signout, badauth } = controller;
-export { register, login, google, me, signout, badauth };
+const { register, login, google, me, signout, badauth, verifyAccount, verifiedCode } = controller;
+export { register, login, google, me, signout, badauth, verifyAccount, verifiedCode };

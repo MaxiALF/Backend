@@ -174,3 +174,18 @@ LINK Vercel: https://mpp-app.vercel.app/
 Luego se define, para el entorno, las variables de "producción", "desarrollo" y "prueba".
 
  Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+
+# 3º Pre-entrega del proyecto final
+
+A la estructura actual de carpetas, se le agrega la carpeta de "repositories" para continuar con la estructura por capas de nuestro servidor.
+
+Para los entornos, se diferencian las variables "PORT" y "MONGO_LINK".
+
+Se maneja la persistencia de "test" para file system y las de "prod" y "dev" con mongo.
+
+Se agrega una nueva funcionalidad de seguridad para que un usuario obligatoriamente, verifique su cuenta y asi poder acceder a ella. Se envía previamente, un mail de confirmación  con el codigo de verifiación de la misma.
+
+Las vistas se siguen desarrollando con handlebars y se añade un nuevo formulario para la verificación de la cuenta de un usuario.
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.

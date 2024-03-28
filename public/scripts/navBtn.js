@@ -17,9 +17,24 @@ fetch("/api/sessions/", { method: "POST" })
           let response = await fetch("/api/sessions/signout", opts);
           response = await response.json();
           if (response.statusCode === 200) {
-            alert("Logged out!");
+            const Toast = Swal.mixin({
+              toast: true,
+              position: "center",
+              showConfirmButton: false,
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+              },
+            });
+            Toast.fire({
+              icon: "success",
+              title: "Signout!!",
+            }).then(() => {
+              window.location.href = "/";
+            });
             localStorage.removeItem("token");
-            location.replace("/");
           }
         } catch (error) {
           console.log(error);

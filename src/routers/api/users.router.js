@@ -10,15 +10,15 @@ import {
 
 class UsersRouter extends customRouter {
   init() {
-    this.post("/", ["ADMIN", "PREM"], propsUsers, create);
+    this.post("/", ["PUBLIC"], propsUsers, create);
 
-    this.get("/", ["PUBLIC"], read);
+    this.get("/", ["ADMIN"], read);
 
-    this.get("/:uid", ["PUBLIC"], readOne);
+    this.get("/:uid", ["USER", "PREM"], readOne);
 
-    this.put("/:uid", ["ADMIN", "PREM"], update);
+    this.put("/:uid", ["USER", "PREM"], update);
 
-    this.delete("/:uid", ["ADMIN", "PREM"], destroy);
+    this.delete("/:uid", ["USER", "PREM"], destroy);
   }
 }
 

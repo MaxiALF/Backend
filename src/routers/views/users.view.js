@@ -18,6 +18,14 @@ export default class UserRouter extends customRouter {
       }
     });
 
+    this.get("/verifiedCode", ["PUBLIC"], async(req, res, next) =>{
+      try {
+        return res.render("verified")
+      } catch (error) {
+        return next(error)
+      }
+    })
+
     this.get("/chat", ["USER", "ADMIN", "PREM"], (req, res, next) => {
       try {
         return res.render("chat", {});

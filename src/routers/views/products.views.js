@@ -1,5 +1,5 @@
 import customRouter from "../customRouter.js";
-import { products } from "../../data/mongo/manager.mongo.js";
+import  products  from "../../data/mongo/products.mongo.js";
 
 export default class ProductRouter extends customRouter {
   init() {

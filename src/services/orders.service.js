@@ -1,16 +1,16 @@
-import { orders } from "../data/mongo/manager.mongo.js";
+import repository from "../repositories/orders.repository.js"
 
 class OrdersService {
   constructor() {
-    this.model = orders;
+    this.repository = repository;
   }
-  create = async (data) => await this.model.create(data);
+  create = async (data) => await this.repository.create(data);
   read = async ({ filter, sortAndPaginate }) =>
-    await this.model.read({ filter, sortAndPaginate });
-  readOne = async (oid) => await this.model.readOne(oid);
-  update = async (oid, data) => await this.model.update(oid, data);
-  destroy = async (oid) => await this.model.destroy(oid);
-  report = async (uid) => await this.model.report(uid);
+    await this.repository.read({ filter, sortAndPaginate });
+  readOne = async (oid) => await this.repository.readOne(oid);
+  update = async (oid, data) => await this.repository.update(oid, data);
+  destroy = async (oid) => await this.repository.destroy(oid);
+  report = async (uid) => await this.repository.report(uid);
 }
 
 const service = new OrdersService();

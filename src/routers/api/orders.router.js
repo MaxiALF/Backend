@@ -12,11 +12,11 @@ import {
 class OrdersRouter extends customRouter {
   init() {
     this.post("/", ["USER", "PREM"], passCallBack("jwt"), create);
-    this.get("/total/:uid", ["USER"], report);
-    this.get("/", ["ADMIN", "PREM", "USER"], read);
-    this.get("/:oid", ["ADMIN", "PREM", "USER"], readOne);
-    this.put("/:oid", ["USER"], update);
-    this.delete("/:oid", ["USER"], destroy);
+    this.get("/total/:uid", ["USER", "PREM"], report);
+    this.get("/", ["PREM", "USER"], read);
+    this.get("/:oid", ["PREM", "USER"], readOne);
+    this.put("/:oid", ["USER", "PREM"], update);
+    this.delete("/:oid", ["USER", "PREM"], destroy);
   }
 }
 
