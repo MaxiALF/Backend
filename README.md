@@ -175,7 +175,6 @@ Luego se define, para el entorno, las variables de "producción", "desarrollo" y
 
  Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
 
-
 # 3º Pre-entrega del proyecto final
 
 A la estructura actual de carpetas, se le agrega la carpeta de "repositories" para continuar con la estructura por capas de nuestro servidor.
@@ -187,5 +186,19 @@ Se maneja la persistencia de "test" para file system y las de "prod" y "dev" con
 Se agrega una nueva funcionalidad de seguridad para que un usuario obligatoriamente, verifique su cuenta y asi poder acceder a ella. Se envía previamente, un mail de confirmación  con el codigo de verifiación de la misma.
 
 Las vistas se siguen desarrollando con handlebars y se añade un nuevo formulario para la verificación de la cuenta de un usuario.
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+# 10º Desafío: Mocking y manejo de errores
+
+Se mantiene la estructura de las carpetas y se agrega a la carpeta "data" una sub-carpeta denominada "mocks" para la creación de dos archivos js llamados "users.mock" y "products.mock", los cúales se encargarán de crear usuarios y productos respectivamente.
+
+Luego se instala la dependencia de desarrolo "FAKER" y se crean productos y usuarios ficticios.
+
+Se agrega un script al "package.json" para ejecutar el archivo "users.mock.js" en el entorno de desarrollo("dev") denominado "userMock".
+
+Se instala la dependencia de express-compression para optimizar el rendimiento del servidor con "Gzip" y "brotly".
+
+Se crea un diccionario de errores y un customError para mejorar el manejo de errores.
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.

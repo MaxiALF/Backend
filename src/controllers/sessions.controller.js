@@ -1,4 +1,6 @@
 import service from "../services/users.service.js";
+import customError from "../utils/errors/customError.js"
+import errors from "../utils/errors/errors.js"
 
 class SessionsController {
   constructor() {
@@ -65,14 +67,6 @@ class SessionsController {
     }
   };
 
-  // verifiedCode = async(req, res, next) =>{
-  //   try {
-  //     return res.success200("User verified!!")
-  //   } catch (error) {
-  //     return next(error)
-  //   }
-  // }
-
   verifyAccount = async (req, res, next) => {
     try {
       const { email, verifiedCode } = req.body;
@@ -84,10 +78,7 @@ class SessionsController {
           message: "verified user!",
         });
       } else {
-        return res.json({
-          statusCode: 400,
-          message: "Invalid verified token!",
-        });
+        customError.new(errors.token)
       }
     } catch (error) {
       return next(error);

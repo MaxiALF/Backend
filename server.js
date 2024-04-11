@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import expressSession from "express-session";
 import sessionFileStore from "session-file-store";
 import cors from "cors";
+import compression from "express-compression";
 import args from "./src/utils/args.util.js";
 import router from "./src/routers/index.router.js";
 import errorHandler from "./src/middlewares/errorHandler.js";
@@ -78,6 +79,11 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
 server.use(morgan("dev"));
+server.use(
+  compression({
+    brotli: { enabled: true, zlib: {} },
+  })
+);
 
 server.use("/", router);
 server.use(errorHandler);

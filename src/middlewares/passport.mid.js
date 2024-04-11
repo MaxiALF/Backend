@@ -8,6 +8,8 @@ import { createToken } from "../utils/token.util.js";
 import UserDTO from "../dto/users.dto.js";
 import dao from "../data/index.factory.js";
 import env from "../utils/env.util.js";
+import customError from "../utils/errors/customError.js";
+import errors from "../utils/errors/errors.js";
 
 const { users } = dao;
 const { GOOGLE_ID, GOOGLE_CLIENT, GIT_ID, GIT_CLIENT, PASS } = env;
@@ -26,10 +28,11 @@ passport.use(
           let user = await users.create(data);
           return done(null, user);
         } else {
-          return done(null, false, {
-            statusCode: 401,
-            message: "User already exists!",
-          });
+          return done(
+            null,
+            false,
+            customError.new(errors.exist)
+          );
         }
       } catch (error) {
         return done(error);
@@ -45,13 +48,17 @@ passport.use(
     async (req, email, password, done) => {
       try {
         const user = await users.readByEmail(email);
-        const verify = verifyHash(password, user.password)
+        const verify = verifyHash(password, user.password);
         if (user?.verified && verify) {
           const token = createToken({ email, role: user.role });
           req.token = token;
           return done(null, user);
         } else {
-          return done(null, false, { message: "Bad auth for passport!" });
+          return done(
+            null,
+            false,
+            customError.new(errors.auth)
+          );
         }
       } catch (error) {
         return done(error);
@@ -147,10 +154,8 @@ passport.use(
           user.password = null;
           return done(null, user);
         } else {
-          return done(null, false, {
-            statusCode: 403,
-            message: "Forbiden!",
-          });
+          return done(null, false, customError.new(errors.forbidden)
+        );
         }
       } catch (error) {
         return done(error);

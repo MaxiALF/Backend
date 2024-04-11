@@ -1,4 +1,5 @@
-import notFoundOne from "../../utils/notFoundOne.utils.js";
+import customError from "../../utils/errors/customError.js";
+import errors from "../../utils/errors/errors.js";
 import { Types } from "mongoose";
 
 class MongoManager {
@@ -19,9 +20,7 @@ class MongoManager {
       sortAndPaginate = { ...sortAndPaginate, lean: true }
       const all = await this.model.paginate(filter, sortAndPaginate);
       if (all.totalDocs === 0) {
-        const error = new Error("Not found!");
-        error.statusCode = 404;
-        throw error;
+        return customError.new(errors.notFound)
       }
       return all;
     } catch (error) {
@@ -32,7 +31,11 @@ class MongoManager {
   async readByEmail(email) {
     try {
       const one = await this.model.findOne({ email });
-      return one;
+      if (!one){
+        customError.new(errors.notFound)
+      } else {
+        return one;
+      }
     } catch (error) {
       throw error;
     }
@@ -41,8 +44,11 @@ class MongoManager {
   async readOne(id) {
     try {
       const one = await this.model.findById(id).lean();
-      notFoundOne(one);
-      return one;
+      if (!one){
+        customError.new(errors.notFound)
+      } else {
+        return one;
+      }
     } catch (error) {
       throw error;
     }
@@ -52,8 +58,11 @@ class MongoManager {
     try {
       const opt = { new: true };
       const one = await this.model.findByIdAndUpdate(id, data, opt);
-      notFoundOne(one);
-      return one;
+      if (!one){
+        customError.new(errors.notFound)
+      } else {
+        return one;
+      }
     } catch (error) {
       throw error;
     }
@@ -62,8 +71,11 @@ class MongoManager {
   async destroy(id) {
     try {
       const one = await this.model.findByIdAndDelete(id);
-      notFoundOne(one);
-      return one;
+      if (!one){
+        customError.new(errors.notFound)
+      } else {
+        return one;
+      }
     } catch (error) {
       throw error;
     }
