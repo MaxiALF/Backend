@@ -5,5 +5,5 @@ const args = new Command()
 args.option("-p <port>", "port")
 args.option("--env <env>", "environment", "prod")
 
-args.parse()
+args.parse();
 export default args.opts()

@@ -1,4 +1,6 @@
 import service from "../services/users.service.js";
+import errors from "../utils/errors/errors.js";
+import customError from "../utils/errors/customError.js";
 
 class UsersController {
   constructor() {
@@ -29,7 +31,11 @@ class UsersController {
         sortAndPaginate.sort.name = -1;
       }
       const all = await this.service.read({ filter, sortAndPaginate });
-      return res.success200(all);
+      if (all.docs.length > 0) {
+        return res.success200(all);
+      } else {
+        customError.new(errors.notFound);
+      }
     } catch (error) {
       next(error);
     }
@@ -39,7 +45,11 @@ class UsersController {
     try {
       const { uid } = req.params;
       const one = await this.service.readOne(uid);
-      return res.success200(one);
+      if (!one) {
+        return customError.new(errors.notFound);
+      } else {
+        return res.success200(one);
+      }
     } catch (error) {
       next(error);
     }
@@ -50,7 +60,11 @@ class UsersController {
       const { uid } = req.params;
       const data = req.body;
       const one = await this.service.update(uid, data);
-      return res.success200(one);
+      if (!one) {
+        return customError.new(errors.notFound);
+      } else {
+        return res.success200(one);
+      }
     } catch (error) {
       next(error);
     }
@@ -60,7 +74,11 @@ class UsersController {
     try {
       const { uid } = req.params;
       const one = await this.service.destroy(uid);
-      return res.success200(one);
+      if (!one) {
+        return customError.new(errors.notFound);
+      } else {
+        return res.success200(one);
+      }
     } catch (error) {
       next(error);
     }

@@ -1,5 +1,6 @@
 import argsUtil from "../utils/args.util.js";
 import db from "../utils/db.js";
+import env from "../utils/env.util.js"
 
 const environment = argsUtil.env;
 
@@ -20,7 +21,7 @@ switch (environment) {
     };
     break;
   case "dev":
-    db().then(() => console.log("DB CONNECTED"));
+    db(env).then(() => console.log("DB CONNECTED IN MODE DEV"));
     const { default: productsDB } = await import("./mongo/products.mongo.js");
     const { default: usersDB } = await import("./mongo/users.mongo.js");
     const { default: ordersDB } = await import("./mongo/orders.mongo.js");
@@ -34,7 +35,7 @@ switch (environment) {
     break;
   default:
     "prod";
-    db().then(() => console.log("DB CONNECTED"));
+    db(env).then(() => console.log("DB CONNECTED"));
     const { default: productsMongo } = await import(
       "./mongo/products.mongo.js"
     );

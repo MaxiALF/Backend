@@ -1,4 +1,6 @@
 import service from "../services/orders.service.js";
+import errors from "../utils/errors/errors.js";
+import customError from "../utils/errors/customError.js";
 
 class OrdersController {
   constructor() {
@@ -33,7 +35,11 @@ class OrdersController {
         sortAndPaginate.sort.user_id = -1;
       }
       const all = await this.service.read({ filter, sortAndPaginate });
-      return res.success200(all);
+      if (!all) {
+        return customError.new(errors.notFound);
+      } else {
+        return res.success200(all);
+      }
     } catch (error) {
       next(error);
     }
@@ -43,7 +49,11 @@ class OrdersController {
     try {
       const { oid } = req.params;
       const one = await this.service.readOne(oid);
-      return res.success200(one);
+      if (!one) {
+        return customError.new(errors.notFound);
+      } else {
+        return res.success200(one);
+      }
     } catch (error) {
       return next(error);
     }
@@ -54,7 +64,11 @@ class OrdersController {
       const { oid } = req.params;
       const data = req.body;
       const one = await this.service.update(oid, data);
-      return res.success200(one);
+      if (!one) {
+        return customError.new(errors.notFound);
+      } else {
+        return res.success200(one);
+      }
     } catch (error) {
       return next(error);
     }
@@ -64,7 +78,11 @@ class OrdersController {
     try {
       const { oid } = req.params;
       const response = await this.service.destroy(oid);
-      return res.success200(response);
+      if (!response) {
+        return customError.new(errors.notFound);
+      } else {
+        return res.success200(response);
+      }
     } catch (error) {
       return next(error);
     }
@@ -74,7 +92,7 @@ class OrdersController {
     try {
       const { uid } = req.params;
       const subTotal = await this.service.report(uid);
-      return res.success200({subTotal});
+      return res.success200({ subTotal });
     } catch (error) {
       return next(error);
     }
