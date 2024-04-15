@@ -37,7 +37,7 @@ fetch("/api/sessions/", { method: "POST" })
             localStorage.removeItem("token");
           }
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
       });
     } else {

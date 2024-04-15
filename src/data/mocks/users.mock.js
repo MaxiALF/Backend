@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import repository from "../../repositories/users.repository.js";
 import createProduct from "./products.mock.js";
+import logger from "../../utils/logger/index.js";
 
 function usersMock() {
   return {
@@ -19,12 +20,12 @@ async function createMocks() {
       await createProduct(user._id);
     }
   } catch (error) {
-    console.log(error);
+    logger.ERROR(error);
   }
 }
 for (let i = 1; i <= 10; i++) {
   await createMocks();
 }
-console.log("MOCKED!");
+logger.INFO("MOCKED!");
 
 createMocks();

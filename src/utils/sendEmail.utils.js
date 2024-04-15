@@ -3,7 +3,6 @@ import env from "./env.util.js";
 
 export default async function sendEmail(data) {
   try {
-    console.log(data);
     const transport = createTransport({
       service: "gmail",
       port: env.PORT,

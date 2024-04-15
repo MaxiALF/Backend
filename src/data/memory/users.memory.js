@@ -1,3 +1,5 @@
+import logger from "../../utils/logger/index.js";
+
 class userManager {
   static #users = [];
 
@@ -42,7 +44,7 @@ class userManager {
         userManager.#users = userManager.#users.filter(
           (each) => each.id !== Number(id)
         );
-        console.log("destroy the ID: " + Number(id));
+        logger.INFO("destroy the ID: " + Number(id));
         return one.id;
       }
     } catch (error) {
@@ -69,10 +71,10 @@ class userManager {
 
       userManager.#users[upOne] = updateduser;
 
-      console.log(`Updated user with ID: ${id}`);
+      logger.INFO(`Updated user with ID: ${id}`);
       return updateduser.id;
     } catch (error) {
-      console.error(error.message);
+      logger.ERROR(error.message);
       return error.message;
     }
   }
@@ -98,17 +100,3 @@ users.create({
     "https://img.freepik.com/psd-gratis/3d-ilustracion-persona-gafas_23-2149436185.jpg?w=740&t=st=1702018581~exp=1702019181~hmac=e303367fc9e292eb7cef43e9760278a4b035a858b5d5ffd7ae0b294de9560dc0",
   email: "SophiS@yahoo.com.ar",
 });
-
-// console.log(users.read());
-// console.log(users.readOne(3));
-// console.log(users.destroy(1));
-// console.log(users.destroy(10));
-// users.update(2, {
-//     name: "sheyla",
-//     photo: "https://profile/photo/img",
-//     email: "sh@hotmail.com",
-// });
-
-// console.log(users.read());
-// console.log(users.readByEmail("Hector90@Gmail.com"));
-// console.log(users.readByEmail("Homer@Gmail.com"));
