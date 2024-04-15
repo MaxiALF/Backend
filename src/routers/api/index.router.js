@@ -5,7 +5,7 @@ import ordersRouter from "./orders.router.js";
 import sessionsRouter from "./sessions.router.api.js";
 import commentsRouter from "./comments.router.api.js";
 import passCallBackMid from "../../middlewares/passCallBack.mid.js";
-// import { fork } from "child_process";
+import logger from "../../utils/logger/index.js";
 
 class ApiRouter extends customRouter {
   init() {
@@ -14,16 +14,17 @@ class ApiRouter extends customRouter {
     this.use("/orders", passCallBackMid("jwt"), ordersRouter);
     this.use("/sessions", sessionsRouter);
     this.use("/comments", commentsRouter);
-    // this.get("/sum", ["PUBLIC"], async (req, res) => {
-    //   try {
-    //     console.log("Global process ID: " + process.pid);
-    //     const child = fork("./src/utils/sum.util.js");
-    //     child.send("start");
-    //     child.on("message", (result) => res.success200(result));
-    //   } catch (error) {
-    //     return next(error);
-    //   }
-    // });
+    this.get("/loggers", ["PUBLIC"], async (req, res, next) => {
+      try {
+        logger.HTTP("Hyper text menssage");
+        logger.INFO("Informative menssage");
+        logger.ERROR("Error menssage");
+        logger.FATAL("Fatal menssage");
+        res.success200("Loggers successful test");
+      } catch (error) {
+        return next(error);
+      }
+    });
   }
 }
 

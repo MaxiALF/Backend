@@ -1,3 +1,5 @@
+import logger from "../../utils/logger/index.js";
+
 class ordersManager {
   static #orders = [];
 
@@ -30,7 +32,7 @@ class ordersManager {
         ordersManager.#orders = ordersManager.#orders.filter(
           (each) => each.id !== Number(id)
         );
-        console.log("destroy the ID: " + Number(id));
+        logger.INFO("destroy the ID: " + Number(id));
         return one.id;
       }
     } catch (error) {
@@ -52,7 +54,9 @@ class ordersManager {
         const newQuantity = currentOrder.quantity - quantity;
 
         if (newQuantity < 0) {
-          throw new Error(`Not enough quantity available for order with ID ${id}.`);
+          throw new Error(
+            `Not enough quantity available for order with ID ${id}.`
+          );
         }
 
         currentOrder.quantity = newQuantity;
@@ -68,10 +72,10 @@ class ordersManager {
 
       ordersManager.#orders[index] = updatedOrder;
 
-      console.log(`Updated order with ID: ${id}`);
+      logger.INFO(`Updated order with ID: ${id}`);
       return updatedOrder.id;
     } catch (error) {
-      console.error(error.message);
+      logger.ERROR(error.message);
       return error.message;
     }
   }
@@ -97,9 +101,3 @@ orders.create({
   quantity: 5,
   state: "paid",
 });
-
-// console.log(readOne(2));
-// console.log(destroy(3));
-
-// orders.update(3, 1, "paid");
-// console.log(orders.read());

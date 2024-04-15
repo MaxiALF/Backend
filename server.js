@@ -15,12 +15,14 @@ import errorHandler from "./src/middlewares/errorHandler.js";
 import pathHandler from "./src/middlewares/pathHandler.js";
 import __dirname from "./utils.js";
 import socketUtils from "./src/utils/socket.utils.js";
+import winston from "./src/middlewares/winston.js";
+import logger from "./src/utils/logger/index.js";
 
 const server = express();
 const PORT = env.PORT || 8080;
 const ready = () => {
-  console.log("Server ready in port " + PORT);
-  console.log("Mode " + args.env + " online");
+  logger.INFO("Server ready in port " + PORT);
+  logger.INFO("Mode " + args.env + " online");
 };
 const httpServer = createServer(server);
 const socketServer = new Server(httpServer);
@@ -79,6 +81,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
 server.use(morgan("dev"));
+server.use(winston);
 server.use(
   compression({
     brotli: { enabled: true, zlib: {} },

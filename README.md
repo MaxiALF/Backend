@@ -202,3 +202,16 @@ Se instala la dependencia de express-compression para optimizar el rendimiento d
 Se crea un diccionario de errores y un customError para mejorar el manejo de errores.
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+
+# 11º Desafío: Implementación de logger
+
+Se mantiene estructuras de carpetas.
+
+Se instala el modulo "Winston".
+
+Luego se agrega a la carpeta "Utils" una carpeta denominada "logger" la cúal contiene 3 archivos JS para el manejo de winston según el entorno.
+
+Se agrega un endpoit "/api/loggers" para probar todos los logs en consola.
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.

@@ -10,6 +10,7 @@ import dao from "../data/index.factory.js";
 import env from "../utils/env.util.js";
 import customError from "../utils/errors/customError.js";
 import errors from "../utils/errors/errors.js";
+import logger from "../utils/logger/index.js";
 
 const { users } = dao;
 const { GOOGLE_ID, GOOGLE_CLIENT, GIT_ID, GIT_CLIENT, PASS } = env;
@@ -28,11 +29,7 @@ passport.use(
           let user = await users.create(data);
           return done(null, user);
         } else {
-          return done(
-            null,
-            false,
-            customError.new(errors.exist)
-          );
+          return done(null, false, customError.new(errors.exist));
         }
       } catch (error) {
         return done(error);
@@ -54,11 +51,7 @@ passport.use(
           req.token = token;
           return done(null, user);
         } else {
-          return done(
-            null,
-            false,
-            customError.new(errors.auth)
-          );
+          return done(null, false, customError.new(errors.auth));
         }
       } catch (error) {
         return done(error);
@@ -113,7 +106,7 @@ passport.use(
     },
     async (req, accessToken, refreshToken, profile, done) => {
       try {
-        console.log(profile);
+      logger.INFO(profile);
         let user = await users.readByEmail(profile.id);
         if (user) {
           req.session.email = user.email;
@@ -154,8 +147,7 @@ passport.use(
           user.password = null;
           return done(null, user);
         } else {
-          return done(null, false, customError.new(errors.forbidden)
-        );
+          return done(null, false, customError.new(errors.forbidden));
         }
       } catch (error) {
         return done(error);

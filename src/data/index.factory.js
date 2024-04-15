@@ -1,6 +1,7 @@
 import argsUtil from "../utils/args.util.js";
 import db from "../utils/db.js";
-import env from "../utils/env.util.js"
+import env from "../utils/env.util.js";
+import logger from "../utils/logger/index.js";
 
 const environment = argsUtil.env;
 
@@ -8,7 +9,7 @@ let dao = {};
 
 switch (environment) {
   case "test":
-    console.log("FILE SYSTEM CONNECTED");
+    logger.INFO("FILE SYSTEM CONNECTED");
     const { default: productsFs } = await import("./fs/products.fs.js");
     const { default: usersFs } = await import("./fs/users.fs.js");
     const { default: ordersFs } = await import("./fs/orders.fs.js");
@@ -21,7 +22,7 @@ switch (environment) {
     };
     break;
   case "dev":
-    db(env).then(() => console.log("DB CONNECTED IN MODE DEV"));
+    db(env).then(() => logger.INFO("DB CONNECTED IN MODE DEV"));
     const { default: productsDB } = await import("./mongo/products.mongo.js");
     const { default: usersDB } = await import("./mongo/users.mongo.js");
     const { default: ordersDB } = await import("./mongo/orders.mongo.js");
@@ -34,8 +35,7 @@ switch (environment) {
     };
     break;
   default:
-    "prod";
-    db(env).then(() => console.log("DB CONNECTED"));
+    db(env).then(() => logger.INFO("DB CONNECTED"));
     const { default: productsMongo } = await import(
       "./mongo/products.mongo.js"
     );
