@@ -13,7 +13,7 @@ export default class ViewsRouter extends customRouter {
     this.router.use("/products", Product.getRouter());
     this.router.use("/auth", User.getRouter());
     this.router.use("/orders", Order.getRouter());
-    this.get("/", ["PUBLIC"], async (req, res, next) => {
+    this.get("/",["PUBLIC"], async (req, res, next) => {
       try {
         const filter = {};
         if (req.query.title) {
@@ -27,6 +27,20 @@ export default class ViewsRouter extends customRouter {
         if (req.query.price === "desc") {
           sortAndPaginate.sort.price = -1;
         }
+        const isPrem = req.user && req.user.role === 2;
+        if (isPrem) {
+          const all = await products.read({
+            filter: { ...filter, owner_id: { $ne: req.user._id } },
+            sortAndPaginate,
+          });
+          return res.render("index", {
+            products: all.docs,
+            next: all.nextPage,
+            prev: all.prevPage,
+            title: "INDEX",
+            filter: req.query.title,
+          });
+        } else {
         const all = await products.read({ filter, sortAndPaginate });
         return res.render("index", {
           products: all.docs,
@@ -35,6 +49,7 @@ export default class ViewsRouter extends customRouter {
           title: "INDEX",
           filter: req.query.title,
         });
+      }
       } catch (error) {
         next(error);
       }

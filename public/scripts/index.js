@@ -9,4 +9,3 @@ document.querySelector("#search").addEventListener("click", async () => {
     alert(error.message);
   }
 });
-

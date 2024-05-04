@@ -23,3 +23,4 @@ schema.plugin(mongoosePaginate)
 const Order = model(collection, schema);
 
 export default Order;
+ 

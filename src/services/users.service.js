@@ -18,6 +18,7 @@ class UsersService {
       throw error;
     }
   };
+  changeRole = async (id) => await this.repository.readOne(id)
 }
 
 const service = new UsersService();

@@ -1,6 +1,7 @@
 import service from "../services/products.service.js";
 import errors from "../utils/errors/errors.js";
 import customError from "../utils/errors/customError.js";
+import users from "../data/mongo/users.mongo.js";
 
 class ProductsController {
   constructor() {
@@ -8,7 +9,8 @@ class ProductsController {
   }
   create = async (req, res, next) => {
     try {
-      const data = req.body;
+      const ownerId = req.user._id;
+      const data = { ...req.body, owner_id: ownerId };
       const response = await this.service.create(data);
       return res.success201(response);
     } catch (error) {
@@ -31,11 +33,24 @@ class ProductsController {
       if (req.query.price === "desc") {
         sortAndPaginate.sort.price = -1;
       }
-      const all = await this.service.read({ filter, sortAndPaginate });
-      if (!all) {
-        return customError.new(errors.notFound);
+      const isPrem = req.user && req.user.role === 2;
+      if (isPrem) {
+        const all = await this.service.read({
+          filter: { ...filter, owner_id: { $ne: req.user._id } },
+          sortAndPaginate,
+        });
+        if (!all) {
+          return customError.new(errors.notFound);
+        } else {
+          return res.success200(all);
+        }
       } else {
-        return res.success200(all);
+        const all = await this.service.read({ filter, sortAndPaginate });
+        if (!all) {
+          return customError.new(errors.notFound);
+        } else {
+          return res.success200(all);
+        }
       }
     } catch (error) {
       return next(error);

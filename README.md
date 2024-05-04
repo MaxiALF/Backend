@@ -203,7 +203,6 @@ Se crea un diccionario de errores y un customError para mejorar el manejo de err
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
 
-
 # 11º Desafío: Implementación de logger
 
 Se mantiene estructuras de carpetas.
@@ -213,5 +212,20 @@ Se instala el modulo "Winston".
 Luego se agrega a la carpeta "Utils" una carpeta denominada "logger" la cúal contiene 3 archivos JS para el manejo de winston según el entorno.
 
 Se agrega un endpoit "/api/loggers" para probar todos los logs en consola.
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+
+# 3º Desafío complementario
+
+Se agrega al "Schema" de productos el elemento "owner_id" para hacer referencia al usuario que crea el producto.
+
+Se crea un middleware para que un usuario Pemium ("PREM") solamente pueda modificar y borrar sus propios productos.
+
+Se implementa un nuevo endpiont "/api/users/premium/:uid" para cambiar su rol de un usuario, "USER"/"PREM" o viceversa.
+
+Se modifica la logica de lectura de los productos para que un usuario premium no pueda ver sus propios productos.
+
+Se modifica la logica para que un usuario premium no pueda agregar sus propios productos al carro de compras.
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.

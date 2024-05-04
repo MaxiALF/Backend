@@ -1,6 +1,7 @@
 import service from "../services/users.service.js";
 import errors from "../utils/errors/errors.js";
 import customError from "../utils/errors/customError.js";
+import users from "../data/mongo/users.mongo.js";
 
 class UsersController {
   constructor() {
@@ -83,9 +84,29 @@ class UsersController {
       next(error);
     }
   };
+
+  changeRole = async (req, res, next) => {
+    try {
+      const { uid } = req.params;
+      const user = await users.readOne(uid);
+      const newRole = user.role === 0 ? 2 : 0;
+      const one = await this.service.update(
+        uid,
+        { role: newRole },
+        { new: true }
+      );
+      if (!one) {
+        return customError.new(errors.notFound);
+      } else {
+        return res.success200("Role Changed!");
+      }
+    } catch (error) {
+      return next(error);
+    }
+  };
 }
 
 export default UsersController;
 const controller = new UsersController();
-const { create, read, readOne, update, destroy } = controller;
-export { create, read, readOne, update, destroy };
+const { create, read, readOne, update, destroy, changeRole } = controller;
+export { create, read, readOne, update, destroy, changeRole };

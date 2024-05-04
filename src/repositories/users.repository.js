@@ -14,6 +14,7 @@ class UsersRepository {
   readByEmail = async(email) => await this.model.readByEmail(email)
   update = async (id, data) => await this.model.update(id, data);
   destroy = async (id) => await this.model.destroy(id);
+  changeRole = async (id) => await this.repository.readOne(id)
 }
 
 const repository = new UsersRepository();
