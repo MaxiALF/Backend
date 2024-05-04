@@ -3,8 +3,9 @@ import crypto from "crypto";
 
 class ProductDTO {
   constructor(data) {
-    argsUtil.env !== "prod", "dev" &&
-      (this._id = crypto.randomBytes(12).toString("hex"));
+    argsUtil.env !== "prod",
+      "dev" && (this._id = crypto.randomBytes(12).toString("hex"));
+    this.owner_id = data.owner_id;
     this.title = data.title;
     this.photo =
       data.photo ||

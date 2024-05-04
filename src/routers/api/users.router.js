@@ -1,6 +1,7 @@
 import customRouter from "../customRouter.js";
 import propsUsers from "../../middlewares/propsUsers.js";
 import {
+  changeRole,
   create,
   destroy,
   read,
@@ -19,6 +20,8 @@ class UsersRouter extends customRouter {
     this.put("/:uid", ["USER", "PREM"], update);
 
     this.delete("/:uid", ["USER", "PREM"], destroy);
+
+    this.post("/premium/:uid", ["USER","PREM","ADMIN"], changeRole);
   }
 }
 

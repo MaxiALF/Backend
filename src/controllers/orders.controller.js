@@ -1,24 +1,33 @@
 import service from "../services/orders.service.js";
 import errors from "../utils/errors/errors.js";
 import customError from "../utils/errors/customError.js";
+import products from "../data/mongo/products.mongo.js";
+
 
 class OrdersController {
   constructor() {
     this.service = service;
   }
+
   create = async (req, res, next) => {
     try {
+      const userId = req.user._id;
+      const { product_id } = req.body; 
+      const product = await products.readOne(product_id);
+      if (product.owner_id.toString() === userId.toString()) {
+        return res.error403();
+      }
       const data = {
-        user_id: req.user._id,
-        product_id: req.body.product_id,
+        user_id: userId,
+        product_id: product_id,
       };
-      const one = await this.service.create(data);
-      return res.success201(one);
+      const order = await this.service.create(data);
+      return res.success201(order, "Created!");
     } catch (error) {
       return next(error);
     }
   };
-
+  
   read = async (req, res, next) => {
     try {
       const filter = {};
