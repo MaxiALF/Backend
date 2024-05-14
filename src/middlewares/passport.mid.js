@@ -8,7 +8,6 @@ import { createToken } from "../utils/token.util.js";
 import UserDTO from "../dto/users.dto.js";
 import dao from "../data/index.factory.js";
 import env from "../utils/env.util.js";
-import customError from "../utils/errors/customError.js";
 import errors from "../utils/errors/errors.js";
 import logger from "../utils/logger/index.js";
 
@@ -29,7 +28,7 @@ passport.use(
           let user = await users.create(data);
           return done(null, user);
         } else {
-          return done(null, false, customError.new(errors.exist));
+          return done(null, false, errors.exist);
         }
       } catch (error) {
         return done(error);
@@ -51,7 +50,7 @@ passport.use(
           req.token = token;
           return done(null, user);
         } else {
-          return done(null, false, customError.new(errors.auth));
+          return done(null, false, errors.auth);
         }
       } catch (error) {
         return done(error);
@@ -147,7 +146,7 @@ passport.use(
           user.password = null;
           return done(null, user);
         } else {
-          return done(null, false, customError.new(errors.forbidden));
+          return done(null, false, errors.forbidden);
         }
       } catch (error) {
         return done(error);

@@ -215,7 +215,6 @@ Se agrega un endpoit "/api/loggers" para probar todos los logs en consola.
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
 
-
 # 3º Desafío complementario
 
 Se agrega al "Schema" de productos el elemento "owner_id" para hacer referencia al usuario que crea el producto.
@@ -227,5 +226,13 @@ Se implementa un nuevo endpiont "/api/users/premium/:uid" para cambiar su rol de
 Se modifica la logica de lectura de los productos para que un usuario premium no pueda ver sus propios productos.
 
 Se modifica la logica para que un usuario premium no pueda agregar sus propios productos al carro de compras.
+
+Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+# 12º Desafío: Documentar API
+
+Se añade a la carpeta "src" la carpeta "docs" la cúal tendrá varios archivos yaml para documentar la aplicación.
+
+Se documenta unicamente el CRUD de productos, definiendo esquemas, respuestas, parametros y rutas.
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.

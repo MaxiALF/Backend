@@ -3,17 +3,22 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import morgan from "morgan";
+import swaggerJSDoc from "swagger-jsdoc";
+import { serve, setup } from "swagger-ui-express";
 import { engine } from "express-handlebars";
 import cookieParser from "cookie-parser";
 import expressSession from "express-session";
 import sessionFileStore from "session-file-store";
 import cors from "cors";
 import compression from "express-compression";
+// import cluster from "cluster";              
+// import { cpus } from "os";
 import args from "./src/utils/args.util.js";
 import router from "./src/routers/index.router.js";
 import errorHandler from "./src/middlewares/errorHandler.js";
 import pathHandler from "./src/middlewares/pathHandler.js";
 import __dirname from "./utils.js";
+import options from "./src/utils/swagger.js";
 import socketUtils from "./src/utils/socket.utils.js";
 import winston from "./src/middlewares/winston.js";
 import logger from "./src/utils/logger/index.js";
@@ -71,10 +76,12 @@ server.use(cookieParser(env.PASS_KEY));
 //   })
 // );
 
+const specifications = swaggerJSDoc(options);
+server.use("/api/docs", serve, setup(specifications));
 server.use(
   cors({
     origin: true,
-    credentials: true,
+    credentials: true, 
   })
 );
 server.use(express.json());
@@ -91,5 +98,16 @@ server.use(
 server.use("/", router);
 server.use(errorHandler);
 server.use(pathHandler);
+
+// logger.INFO(cluster.isPrimary);
+// if (cluster.isPrimary) {
+//   logger.INFO("PRIMARY ID :" + process.pid);
+//   const numberOfProcess = cpus().length;
+//   logger.INFO("NUMBER OF PROCESS OF MY COMPUTER: " + numberOfProcess);
+//   cluster.fork();
+// } else {
+//   logger.INFO("WORKER ID: " + process.pid);
+//   server.listen(PORT, ready);
+// }
 
 export { socketServer };

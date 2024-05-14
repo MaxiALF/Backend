@@ -1,7 +1,6 @@
 import service from "../services/products.service.js";
 import errors from "../utils/errors/errors.js";
 import customError from "../utils/errors/customError.js";
-import users from "../data/mongo/users.mongo.js";
 
 class ProductsController {
   constructor() {
@@ -12,7 +11,7 @@ class ProductsController {
       const ownerId = req.user._id;
       const data = { ...req.body, owner_id: ownerId };
       const response = await this.service.create(data);
-      return res.success201(response);
+      return res.status(201).success201(response);
     } catch (error) {
       return next(error);
     }
@@ -62,7 +61,7 @@ class ProductsController {
       const { pid } = req.params;
       const one = await this.service.readOne(pid);
       if (!one) {
-        return customError.new(errors.notFound);
+        return res.status(404).errors.notFound;
       } else {
         return res.success200(one);
       }
