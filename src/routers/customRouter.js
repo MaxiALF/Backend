@@ -26,13 +26,13 @@ export default class customRouter {
   }
   responses = (req, res, next) => {
     res.success200 = (payload) =>
-      res.json({ statusCode: 200, response: payload });
+      res.status(200).json({ statusCode: 200, response: payload });
     res.success201 = (payload) =>
-      res.json({ statusCode: 201, response: payload });
+      res.status(201).json({ statusCode: 201, response: payload });
     res.error400 = (message) => res.json({ statusCode: 400, message });
-    res.error401 = () => res.json({ statusCode: 401, message: "Bad auth!" });
-    res.error403 = () => res.json({ statusCode: 403, message: "Forbiden!" });
-    res.error404 = () => res.json({ statusCode: 404, message: "Not found!" });
+    res.error401 = () => res.status(401).json({ statusCode: 401, message: "Bad auth!" });
+    res.error403 = () => res.status(403).json({ statusCode: 403, message: "Forbiden!" });
+    res.error404 = () => res.status(404).json({ statusCode: 404, message: "Not found!" });
     return next();
   };
   policies = (arrayOfPolicies) => async (req, res, next) => {

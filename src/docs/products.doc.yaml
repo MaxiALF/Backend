@@ -1,0 +1,455 @@
+components:
+  schemas:
+    Product:
+      type: object
+      properties: 
+        title:
+          type: string
+          description: Title of product
+        photo:
+          type: string
+          description: Photo of product
+        price:
+          type: number
+          description: Price of product
+        stock:
+          type: number
+          description: Stock of product
+      example:
+        title: pistones de competición PORSCHE
+        photo: https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg
+        price: 100000
+        stock: 5
+
+    Allproducts:
+      type: array
+      items:
+        properties: 
+          _id:
+            type: string
+            description: Id of product
+          owner_id: 
+            type: string
+            description: Owner of product
+          title:
+            type: string
+            description: Title of product
+          photo:
+            type: string
+            description: Photo of product
+          price:
+            type: number
+            description: Price of product
+          stock:
+            type: number
+            description: Stock of product
+
+    Oneproduct:
+      type: object
+      properties:
+        _id:
+          type: objectId
+          description: Id of porduct to read
+      example:
+        _id: e22f09eb48bdd026a576ffa9
+
+    UpdateProduct:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of product to update
+        photo:
+          type: string
+          description: Photo of product to update
+        price:
+          type: number
+          description: Price of product to update
+        stock:
+          type: number
+          description: Stock of product to update
+      example:
+        title: pistones de competición PORSCHE 911
+        photo: https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg
+        price: 1500000
+        stock: 1
+
+    DestroyProduct:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id of product to delete
+      example:
+        _id: e22f09eb48bdd026a576ffa9
+
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+
+  responses: 
+    res201: 
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Successfull Code
+        response:
+          type: object
+          properties: 
+            _id: 
+              type: string
+            owner_id: 
+              type: string
+            title:
+              type: string
+            photo: 
+              type: string
+            price:
+              type: number
+            stock:
+              type:  number
+          description: Data of the product created
+      example:
+        statusCode: 201
+        response:
+          _id: e22f09eb48bdd026a576ffa9
+          owner_id: d96df10b56edb5ef1b3eecd1
+          title: pistones de competición PORSCHE
+          photo: https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg
+          price: 100000
+          stock: 5
+
+    res200array:
+      type: array
+      properties:
+        statusCode:
+          type: number
+          description: Successfull Code
+        response:
+          type: object
+          properties:
+            _id: 
+              type: string
+            owner_id: 
+              type: string
+            title:
+              type: string
+            photo: 
+              type: string
+            price:
+              type: number
+            stock:
+              type:  number
+          description: Data of products
+      example:
+        statusCode: 200
+        response:
+          docs:
+            - _id: e22f09eb48bdd026a576ffa9
+              owner_id: d96df10b56edb5ef1b3eecd1
+              title: pistones de competición PORSCHE
+              photo: https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg
+              price: 100000
+              stock: 5
+            - _id: e22f09eb48bdd012we89uy3v
+              owner_id: d96df10b56edb5pcu585lfo0
+              title: cremallera ford GT40
+              photo: https://www.shutterstock.com/image-vector/fordgt.jpg
+              price: 200000
+              stock: 2
+          totalDocs: 105,
+          limit: 10,
+          totalPages: 11,
+          page: 11,
+          pagingCounter: 101,
+          hasPrevPage: true,
+          hasNextPage: false,
+          prevPage: 10,
+          nextPage: null
+
+    res200:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Successfull Code
+        response:
+          type: object
+          properties:
+            _id: 
+              type: string
+            owner_id: 
+              type: string
+            title:
+              type: string
+            photo: 
+              type: string
+            price:
+              type: number
+            stock:
+              type:  number
+          description: Data of product update
+      example:
+        statusCode: 200
+        response:
+          _id: e22f09eb48bdd026a576ffa9
+          owner_id: d96df10b56edb5ef1b3eecd1
+          title: pistones de competición PORSCHE 911
+          photo: https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg
+          price: 150000
+          stock: 1
+
+    res400:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Bad request
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 400
+        message: title & price are required
+
+    res401:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Unauthorized
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 401
+        message: bad auth
+
+    res403:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Forbiden
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 403
+        message: Forbiden!
+
+    res404:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: not found
+        message: 
+              type: string
+              description: message of error. 
+      example:
+        statusCode: 404
+        url: GET /api/products/4f34742ee34f507d31bd3b90,
+        message: Not Found
+
+paths:
+  /api/products:
+    post:
+      summary: To create a product
+      tags:
+        - Products
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res201'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+        '403':
+          description: Forbiden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res403'
+
+    get:
+      summary: To get all products
+      tags:
+        - Products
+      parameters:
+        - name: title
+          in: query
+          description: Sort products by title
+          schema:
+            type: string
+        - name: price
+          in: query
+          description: Sort products by price
+          schema:
+            type: string
+            enum: [asc, desc]
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: Maximum number of products per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses: 
+        '200':
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res200array'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res404'
+
+  /api/products/{pid}:
+    get:
+      summary: To get product for Id
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          description: Id of product to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res200'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res404'
+
+    put:
+      summary: To update a product
+      tags: 
+        - Products
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProduct'
+      parameters: 
+        - name: pid
+          in: path
+          required: true
+          description: Parameter required to update
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Updated!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res200'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+        '403':
+          description: Forbiden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res403'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res404'
+
+    delete:
+      summary: To delete a product
+      tags: 
+        - Products
+      security:
+        - cookieAuth: []
+      parameters: 
+        - name: pid
+          in: path
+          required: true
+          description: Parameters required to destroy
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deleted!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res200'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+        '403':
+          description: Forbiden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res403'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res404'
