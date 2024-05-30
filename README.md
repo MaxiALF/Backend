@@ -236,3 +236,16 @@ Se añade a la carpeta "src" la carpeta "docs" la cúal tendrá varios archivos 
 Se documenta unicamente el CRUD de productos, definiendo esquemas, respuestas, parametros y rutas.
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
+
+
+# 4º Desafío complementario
+
+Se crea la caperta "test" para la realización de un testing con Mocha, chai y supertest.
+
+Se instalan las dependencias de Mocha, chai y supertest.
+
+Se crea para los metodos de products, users y orders un test de funcionalidad.
+
+Se estresa el servidor con los metodos login,read y signout con artillery.
+
+---

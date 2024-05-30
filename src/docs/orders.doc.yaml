@@ -1,0 +1,441 @@
+components:
+  schemas:
+    Order:
+      type: object
+      properties: 
+        product_id:
+          type: string
+          description: Id of product
+        user_id:
+          type: string
+          description: Id of user
+        quantity:
+          type: number
+          description: Quantity of products to add
+        state:
+          type: string
+          description: State of order
+      example:
+        product_id: 5c19b35ce89454b9c8758caa
+        user_id: afb3521cbcfb7dcc0ec9ce5b
+        quantity: 2
+        state: reserved
+
+    AllOrders:
+      type: array
+      items:
+        properties: 
+          _id:
+            type: string
+            description: Id of order
+          product_id: 
+            type: string
+            description: Id of product
+          user_id:
+            type: string
+            description: Id of user
+          quantity:
+            type: number
+            description: quantity of products
+          state:
+            type: string
+            description: State of order
+
+    OneOrder:
+      type: object
+      properties:
+        _id:
+          type: objectId
+          description: Id of order to read
+      example:
+        _id: 663326de4592fb43df6b2547
+
+    UpdateOrder:
+      type: object
+      properties:
+        product_id:
+          type: string
+          description: Id of product
+        user_id:
+          type: string
+          description: Id of user
+        quantity:
+          type: number
+          description: Quantity of products to add
+        state:
+          type: string
+          description: State of order
+      example:
+        product_id: 5c19b35ce89454b9c8758caa
+        user_id: afb3521cbcfb7dcc0ec9ce5b
+        quantity: 4
+        state: deployed
+
+    DestroyOrder:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id of order to delete
+      example:
+        _id: 663326de4592fb43df6b2547
+
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+
+  responses: 
+    201order: 
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Successfull Code
+        response:
+          type: object
+          properties: 
+            _id: 
+              type: string
+            product_id: 
+              type: string
+            user_id:
+              type: string
+            quantity: 
+              type: number
+            state:
+              type: number
+          description: Data of the order created
+      example:
+        statusCode: 201
+        response:
+          _id: 6633251f6643ec1edcf30aff
+          product_id: 5c19b35ce89454b9c8758caa
+          user_id: afb3521cbcfb7dcc0ec9ce5b
+          quantity: 5
+          state: reserved
+
+
+    200arrayOrder:
+      type: array
+      properties:
+        statusCode:
+          type: number
+          description: Successfull Code
+        response:
+          type: object
+          properties:
+            _id: 
+              type: string
+            product_id: 
+              type: string
+            user_id:
+              type: string
+            quantity: 
+              type: number
+            state:
+              type: number
+          description: Data of orders
+      example:
+        statusCode: 200
+        response:
+          docs:
+            - _id: 6633251f6643ec1edcf30aff
+              product_id: 5c19b35ce89454b9c8758caa
+              user_id: afb3521cbcfb7dcc0ec9ce5b
+              quantity: 5
+              state: reserved
+            - _id: 6635b7e5d62b1e6d7c813971
+              product_id: e22f09eb48bdd026a576ffa9
+              user_id: afb3521cbcfb7dcc0ec9ce5b
+              quantity: 2
+              state: paid
+          totalDocs: 20,
+          limit: 10,
+          totalPages: 2,
+          page: 1,
+          pagingCounter: 1,
+          hasPrevPage: false,
+          hasNextPage: true,
+          prevPage: null
+          nextPage: 2
+
+    200order:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Successfull Code
+        response:
+          type: object
+          properties:
+            product_id: 
+              type: string
+            user_id:
+              type: string
+            quantity: 
+              type: number
+            state:
+              type: number
+          description: Data of order update
+      example:
+        statusCode: 200
+        response:
+          _id: 6633251f6643ec1edcf30aff
+          product_id: 5c19b35ce89454b9c8758caa
+          user_id: afb3521cbcfb7dcc0ec9ce5b
+          quantity: 8
+          state: paid
+
+    res400:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Bad request
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 400
+        message: uid & pid is required
+
+    res401:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Unauthorized
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 401
+        message: bad auth
+
+    res403:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Forbiden
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 403
+        message: Forbiden!
+
+    res404:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: not found
+        message: 
+              type: string
+              description: message of error. 
+      example:
+        statusCode: 404
+        url: GET /api/orders/6635b7e5d62b1e6d7c251946,
+        message: Not Found
+
+paths:
+  /api/orders:
+    post:
+      summary: To create a order
+      tags:
+        - Orders
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/201order'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+        '403':
+          description: Forbiden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res403'
+
+    get:
+      summary: To get all orders
+      tags:
+        - Orders
+      parameters:
+        - name: state
+          in: query
+          description: Sort products by state
+          schema:
+            type: string
+        - name: quantity
+          in: query
+          description: Sort products by quantity
+          schema:
+            type: string
+            enum: [asc, desc]
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            minimum: 1
+        - name: limit
+          in: query
+          description: Maximum number of products per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses: 
+        '200':
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/200arrayOrder'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res404'
+
+  /api/orders/{oid}:
+    get:
+      summary: To get product for Id
+      tags:
+        - Orders
+      parameters:
+        - name: oid
+          in: path
+          description: Id of order to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/200order'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res404'
+
+    put:
+      summary: To update a order
+      tags: 
+        - Orders
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrder'
+      parameters: 
+        - name: oid
+          in: path
+          required: true
+          description: Parameter required to update
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Updated!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/200order'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+        '403':
+          description: Forbiden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res403'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res404'
+
+    delete:
+      summary: To delete a order
+      tags: 
+        - Orders
+      security:
+        - cookieAuth: []
+      parameters: 
+        - name: oid
+          in: path
+          required: true
+          description: Parameters required to destroy
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Deleted!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/200order'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+        '403':
+          description: Forbiden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res403'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res404'

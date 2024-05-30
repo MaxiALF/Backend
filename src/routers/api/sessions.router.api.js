@@ -52,6 +52,8 @@ class SessionsRouter extends customRouter {
     this.get("/badauth", ["PUBLIC"], badauth);
 
     this.post("/verify", ["PUBLIC"], verifyAccount)
+
+    this.post("/confirmed", ["PUBLIC"])
   }
 }
 
