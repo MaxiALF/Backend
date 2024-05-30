@@ -3,7 +3,7 @@ function propsOrders(req, res, next) {
     if (!uid || !pid) {
         return res.json({
             statusCode: 400,
-            response: `${req.method} ${req.url} oid & pid is required`,
+            response: `${req.method} ${req.url} uid & pid is required`,
         }) 
     } else {
         return next()

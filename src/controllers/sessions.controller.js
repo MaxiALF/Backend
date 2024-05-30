@@ -8,10 +8,10 @@ class SessionsController {
   } 
 
   register = async (req, res, next) => {
-    const { email, name, verifiedCode } = req.user;
-    await this.service.register({ email, name, verifiedCode });
+    const { email, name, verifiedCode, _id } = req.user;
+    await this.service.register({ email, name, verifiedCode, _id });
     try {
-      return res.success201("Registered!");
+      return res.success201({ Mesagge:"Registered!", id:  _id }); 
     } catch (error) {
       return next(error);
     }
@@ -53,6 +53,8 @@ class SessionsController {
 
   signout = async (req, res, next) => {
     try {
+      // user.last_connection = new Date();
+      // await user.save();
       return res.clearCookie("token").success200("Signed out!");
     } catch (error) {
       return next(error);

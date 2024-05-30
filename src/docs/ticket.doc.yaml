@@ -1,0 +1,6 @@
+components:
+  schemas:
+    Ticket:
+      type: object
+      properties:
+      

@@ -1,0 +1,330 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties: 
+        name:
+          type: string
+          description: Name of user
+        photo:
+          type: string
+          description: Photo of user
+        email:
+          type: string
+          description: Email of user
+        password:
+          type: string
+          description: Password of user
+      example:
+        name: Maxi Lopez
+        photo: https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-9…
+        email: max98alf@gmail.com
+        password: hello123
+
+    LogUser:
+      type: object
+      properties: 
+        email:
+          type: string
+          description: Email of user
+        password:
+          type: string
+          description: Password of user
+
+    GitLogUser:
+      type: object
+      properties:
+        code:
+          type: string
+
+    updatePasswordUser:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          format: password
+        newPassword:
+          type: string
+          format: password
+
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+
+  responses: 
+    res201user: 
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Successfull Code
+        response:
+          type: object
+          properties: 
+          _id:
+            type: string
+          name: 
+            type: string
+          photo:
+            type: string
+          email:
+            type: string
+          password:
+            type: string
+          role:
+            type: number
+          verified:
+            type: bolean
+          verifiedCode:
+            type: string
+          description: Data of user created
+      example:
+        statusCode: 201
+        response:
+          _id: afb3521cbcfb7dcc0ec9ce5b
+          name: Maxi Lopez
+          photo: https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-9…
+          email: max98alf@gmail.com
+          password: $2b$10$8RQt7QBkrMqCFenCPprZdevM3MX35TgZq6hRo4YrHNjTxPlMzXJd2
+          role: 0
+          verified: true
+          verifiedCode: j5fnfVHq7XYaGaUl
+
+    res200log:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Successfull Code
+        message:
+          type: string
+          description: message of response
+      example:
+        statusCode: 200
+        response: logged in!
+
+    res200signout:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Successfull Code
+        message:
+          type: string
+          description: message of response
+      example:
+        statusCode: 200
+        response: signout!
+
+    res200updated:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Successfull Code
+        message:
+          type: string
+          description: message of response
+      example:
+        statusCode: 200
+        response: password updated!
+
+    res400user:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Bad request
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 400
+        message: name is required
+
+    res401:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Unauthorized
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 401
+        message: bad auth
+
+    res403:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Forbiden
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 403
+        message: Forbiden!
+
+    res404:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: not found
+        message: 
+              type: string
+              description: message of error. 
+      example:
+        statusCode: 404
+        message: Not Found
+
+paths:
+  /api/sessions/register:
+    post:
+      summary: To create a user
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res201user'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+        '403':
+          description: Forbiden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res403'
+
+  /api/sessions/login:
+    post:
+      summary: Log in a user
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/res200log'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+
+  /api/sessions/github:
+    post:
+      summary: Log in a user with GitHub
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GitHubLoginRequest'
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/res200log'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'
+
+  /api/sessions/signout:
+    post:
+      summary: Sign out a user
+      tags: 
+        - User
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/res200signout'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res400'
+
+  /api/sessions/update-password:
+    put:
+      summary: Update user password
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePasswordRequest'
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/res200updated'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res401'

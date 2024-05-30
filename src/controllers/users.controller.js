@@ -104,9 +104,35 @@ class UsersController {
       return next(error);
     }
   };
+
+  fileUpload = async (req, res, next) => {
+    try {
+      const { uid } = req.params;
+      const files = req.files;
+      if (!files || files.length === 0) {
+        return res.status(400).error400({ message: "No files uploaded" });
+      }
+      const user = await users.findById(uid);
+      if (!user) {
+        return res.status(404).error404({ message: "User not found" });
+      }
+      files.forEach((file) => {
+        user.documents.push({ name: file.originalname, reference: file.path });
+      });
+      await user.save();
+      res
+        .status(200)
+        .success200({
+          message: "Documents uploaded successfully",
+          documents: user.documents,
+        });
+    } catch (error) {
+      return next(error);
+    }
+  };
 }
 
 export default UsersController;
 const controller = new UsersController();
-const { create, read, readOne, update, destroy, changeRole } = controller;
-export { create, read, readOne, update, destroy, changeRole };
+const { create, read, readOne, update, destroy, changeRole, fileUpload } = controller;
+export { create, read, readOne, update, destroy, changeRole, fileUpload };

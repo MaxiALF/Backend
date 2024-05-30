@@ -33,5 +33,13 @@ export default class UserRouter extends customRouter {
         next(error);
       }
     });
+
+    this.get("/confirmed", ["PUBLIC"], (req, res, next) => {
+      try {
+        return res.render("confirmed")
+      } catch (error) {
+        return next(error)
+      }
+    })
   }
 }
