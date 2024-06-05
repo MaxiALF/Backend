@@ -237,7 +237,6 @@ Se documenta unicamente el CRUD de productos, definiendo esquemas, respuestas, p
 
 Por último, se realizan algunas pruebas y se toma captura de pantalla para verificar el funcionamiento.
 
-
 # 4º Desafío complementario
 
 Se crea la caperta "test" para la realización de un testing con Mocha, chai y supertest.
@@ -248,4 +247,14 @@ Se crea para los metodos de products, users y orders un test de funcionalidad.
 
 Se estresa el servidor con los metodos login,read y signout con artillery.
 
----
+# 5º Desafío complementario
+
+Se modifica el modelo de usuarios agregandole una nueva propiedad denominada "documents", la cúal es un array que contiene las propiedades "name" y "reference".
+
+También se agrega una propiedad denominada "last_connection", la cúal se modifica cada vez que un usuario inicia y cierra sesión.
+
+Luego se crea un endpoint "api/users/:uid/documents" que permite subir uno o más archivos a la nube del usuario.
+
+Se modifica el middleware de multer para que este guarde en diferentes carpetas los diferentes archivos que se carguen.
+
+Por último se modifica el endpoint "api/users/premium/:uid" para que un usuario común solamente pueda actualizarse a premium si cumple con la carga de los siguientes documentos: "identificación", "comprobante de domicilio" y "comprobante de estado de cuenta".

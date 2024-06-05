@@ -1,17 +1,18 @@
+import users from "../data/mongo/users.mongo.js";
 import service from "../services/users.service.js";
-import customError from "../utils/errors/customError.js"
-import errors from "../utils/errors/errors.js"
+import customError from "../utils/errors/customError.js";
+import errors from "../utils/errors/errors.js";
 
 class SessionsController {
   constructor() {
     this.service = service;
-  } 
+  }
 
   register = async (req, res, next) => {
     const { email, name, verifiedCode, _id } = req.user;
     await this.service.register({ email, name, verifiedCode, _id });
     try {
-      return res.success201({ Mesagge:"Registered!", id:  _id }); 
+      return res.success201({ Mesagge: "Registered!", id: _id });
     } catch (error) {
       return next(error);
     }
@@ -19,6 +20,8 @@ class SessionsController {
 
   login = async (req, res, next) => {
     try {
+      const user = req.user._id;
+      await users.update(user, { last_connection: new Date() });
       return res
         .cookie("token", req.token, {
           maxAge: 7 * 24 * 60 * 60 * 1000,
@@ -53,8 +56,8 @@ class SessionsController {
 
   signout = async (req, res, next) => {
     try {
-      // user.last_connection = new Date();
-      // await user.save();
+      const user = req.user._id;
+      await users.update(user, { last_connection: new Date() });
       return res.clearCookie("token").success200("Signed out!");
     } catch (error) {
       return next(error);
@@ -80,7 +83,7 @@ class SessionsController {
           message: "verified user!",
         });
       } else {
-        customError.new(errors.token)
+        customError.new(errors.token);
       }
     } catch (error) {
       return next(error);
@@ -90,5 +93,23 @@ class SessionsController {
 
 export default SessionsController;
 const controller = new SessionsController();
-const { register, login, google, me, signout, badauth, verifyAccount, verifiedCode } = controller;
-export { register, login, google, me, signout, badauth, verifyAccount, verifiedCode };
+const {
+  register,
+  login,
+  google,
+  me,
+  signout,
+  badauth,
+  verifyAccount,
+  verifiedCode,
+} = controller;
+export {
+  register,
+  login,
+  google,
+  me,
+  signout,
+  badauth,
+  verifyAccount,
+  verifiedCode,
+};

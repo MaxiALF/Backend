@@ -48,8 +48,6 @@ passport.use(
         if (user?.verified && verify) {
           const token = createToken({ email, role: user.role });
           req.token = token; 
-          user.last_connection = new Date();
-          await user.save();
           return done(null, user);
         } else {
           return done(null, false, errors.auth);
