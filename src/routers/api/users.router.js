@@ -7,7 +7,7 @@ import {
   read,
   readOne,
   update,
-  fileUpload,
+  uploadFiles,
 } from "../../controllers/users.controller.js";
 import uploader from "../../middlewares/multer.js";
 
@@ -27,9 +27,24 @@ class UsersRouter extends customRouter {
 
     this.post(
       "/:uid/documents",
-      ["USER", "PREM"],
-      uploader.array("documents", 10),
-      fileUpload
+      ["USER", "PREM", "ADMIN"],
+      uploader.array('document', 10),
+      uploadFiles
+    );
+
+
+    this.post(
+      '/:uid/profile',
+      ["USER", "PREM", "ADMIN"],
+      uploader.single('profile'),
+      uploadFiles
+    ); 
+    
+    this.post(
+      '/:uid/product',
+      ["USER", "PREM", "ADMIN"],
+      uploader.single('product'),
+      uploadFiles
     );
   }
 }

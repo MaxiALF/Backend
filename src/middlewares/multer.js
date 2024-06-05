@@ -1,21 +1,28 @@
+import __dirname from "../../utils.js";
 import multer from "multer";
-import __dirname from "../../utils.js"
+import path from "path";
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    let folder = "other"; 
-    if (file.fieldname === "userPhoto") {
-      folder = "profiles";
-    } else if (file.fieldname === "productPhoto") {
-      folder = "products";
-    } else if (file.fieldname === "document") {
-      folder = "documents";
+  destination: function (req, file, cb) {
+    let folder = '';
+    switch (file.fieldname) {
+      case 'profile':
+        folder = 'profiles';
+        break;
+      case 'product':
+        folder = 'products';
+        break;
+      case 'document':
+        folder = 'docs';
+        break;
+      default:
+        folder = 'others';
     }
-    cb(null, path.join(__dirname, `/public/${folder}`));
+    cb(null, path.join(__dirname, `public/${folder}`));
   },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  }
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
 });
 
 const uploader = multer({ storage });

@@ -88,13 +88,21 @@ class UsersController {
   changeRole = async (req, res, next) => {
     try {
       const { uid } = req.params;
+      const { role } = req.body;
       const user = await users.readOne(uid);
-      const newRole = user.role === 0 ? 2 : 0;
-      const one = await this.service.update(
-        uid,
-        { role: newRole },
-        { new: true }
-      );
+      if (role === 2) {
+        const requiredDocs = ["identification", "adress", "account status"];
+        const userDocs = user.documents.map((doc) =>
+          doc.name.toLowerCase().replace(".txt", "")
+        );
+        const hasAllDocs = requiredDocs.every((doc) => userDocs.includes(doc));
+        if (!hasAllDocs) {
+          return res
+            .status(400)
+            .json({ message: "User has not uploaded all required documents" });
+        }
+      }
+      const one = await this.service.update(uid, { role });
       if (!one) {
         return customError.new(errors.notFound);
       } else {
@@ -105,34 +113,29 @@ class UsersController {
     }
   };
 
-  fileUpload = async (req, res, next) => {
+  uploadFiles = async (req, res, next) => {
     try {
-      const { uid } = req.params;
+      const user = req.params.uid;
       const files = req.files;
       if (!files || files.length === 0) {
-        return res.status(400).error400({ message: "No files uploaded" });
+        return res.status(400).json({ message: "No files uploaded" });
       }
-      const user = await users.findById(uid);
-      if (!user) {
-        return res.status(404).error404({ message: "User not found" });
-      }
-      files.forEach((file) => {
-        user.documents.push({ name: file.originalname, reference: file.path });
-      });
-      await user.save();
+      const documents = files.map((file) => ({
+        name: file.originalname,
+        reference: file.path,
+      }));
+      await users.update(user, { $push: { documents: { $each: documents } } });
       res
         .status(200)
-        .success200({
-          message: "Documents uploaded successfully",
-          documents: user.documents,
-        });
+        .json({ message: "Documents uploaded successfully", documents });
     } catch (error) {
-      return next(error);
+      next(error);
     }
   };
 }
 
 export default UsersController;
 const controller = new UsersController();
-const { create, read, readOne, update, destroy, changeRole, fileUpload } = controller;
-export { create, read, readOne, update, destroy, changeRole, fileUpload };
+const { create, read, readOne, update, destroy, changeRole, uploadFiles } =
+  controller;
+export { create, read, readOne, update, destroy, changeRole, uploadFiles };

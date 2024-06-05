@@ -41,5 +41,13 @@ export default class UserRouter extends customRouter {
         return next(error)
       }
     })
+
+    this.get("/documents", ["USER", "ADMIN", "PREM"], (req, res, next) => {
+      try {
+        return res.render("documents")
+      } catch (error) {
+        return next(error)
+      }
+    })
   }
 }
