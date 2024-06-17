@@ -19,7 +19,6 @@ components:
         product_id: 5c19b35ce89454b9c8758caa
         user_id: afb3521cbcfb7dcc0ec9ce5b
         quantity: 2
-        state: reserved
 
     AllOrders:
       type: array
@@ -188,7 +187,7 @@ components:
           quantity: 8
           state: paid
 
-    res400:
+    res400order:
       type: object
       properties:
         statusCode:
@@ -227,7 +226,7 @@ components:
         statusCode: 403
         message: Forbiden!
 
-    res404:
+    res404one:
       type: object
       properties:
         statusCode:
@@ -238,7 +237,21 @@ components:
               description: message of error. 
       example:
         statusCode: 404
-        url: GET /api/orders/6635b7e5d62b1e6d7c251946,
+        url: GET /api/orders/6635b7e5d62b1e6d7c251946
+        message: Not Found
+
+    res404all:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: not found
+        message: 
+              type: string
+              description: message of error. 
+      example:
+        statusCode: 404
+        url: GET /api/orders
         message: Not Found
 
 paths:
@@ -267,7 +280,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/res400'
+                $ref: '#/components/responses/res400order'
         '401':
           description: Unauthorized
           content:
@@ -323,16 +336,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/responses/res401'
+        '403':
+          description: Forbiden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res403'
         '404':
           description: Not found
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/res404'
+                $ref: '#/components/responses/res404all'
 
   /api/orders/{oid}:
     get:
-      summary: To get product for Id
+      summary: To get order for Id
       tags:
         - Orders
       parameters:
@@ -349,12 +368,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/responses/200order'
+        '403':
+          description: Forbiden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/res403'
         '404':
           description: Not found
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/res404'
+                $ref: '#/components/responses/res404one'
 
     put:
       summary: To update a order
@@ -399,7 +424,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/res404'
+                $ref: '#/components/responses/res404one'
 
     delete:
       summary: To delete a order
@@ -438,4 +463,4 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/res404'
+                $ref: '#/components/responses/res404one'

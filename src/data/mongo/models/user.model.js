@@ -21,7 +21,9 @@ const schema = new Schema(
         reference: { type: String }
       }
     ],
-    last_connection: { type: Date, default: null }
+    last_connection: { type: Date, default: null },
+    resetPasswordToken: {type: String},
+    resetPasswordExpires: {type: Date},
   },
   { timestamps: true }
 );

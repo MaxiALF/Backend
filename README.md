@@ -258,3 +258,13 @@ Luego se crea un endpoint "api/users/:uid/documents" que permite subir uno o má
 Se modifica el middleware de multer para que este guarde en diferentes carpetas los diferentes archivos que se carguen.
 
 Por último se modifica el endpoint "api/users/premium/:uid" para que un usuario común solamente pueda actualizarse a premium si cumple con la carga de los siguientes documentos: "identificación", "comprobante de domicilio" y "comprobante de estado de cuenta".
+
+# Proyecto Final
+
+Se completa la aplicación.
+
+Se despliega la aplicación mediante el host de Raylway.
+
+Se añade la pasarela de pago mediante la plataforma de Stripe.
+
+Por último se realiza el borrado de todos los console.log y el codigo comentado que sea irrelevante.

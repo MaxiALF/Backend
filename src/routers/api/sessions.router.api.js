@@ -5,11 +5,14 @@ import passCallBackMid from "../../middlewares/passCallBack.mid.js";
 import {
   badauth,
   google,
+  gitHub,
   login,
   me,
   register,
   signout,
   verifyAccount,
+  password,
+  resetPassword,
 } from "../../controllers/sessions.controller.js";
 
 class SessionsRouter extends customRouter {
@@ -23,6 +26,10 @@ class SessionsRouter extends customRouter {
     );
 
     this.post("/login", ["PUBLIC"], passCallBackMid("login"), login);
+
+    this.post("/password", ["PUBLIC"], password);
+
+    this.post("/reset/:token",["PUBLIC"], resetPassword)
 
     this.post(
       "/google",
@@ -40,6 +47,22 @@ class SessionsRouter extends customRouter {
       google
     );
 
+    this.post(
+      "/github",
+      ["PUBLIC"],
+      passport.authenticate("github", { scope: ["email", "profile"] })
+    );
+
+    this.get(
+      "/github/callback",
+      ["PUBLIC"],
+      passport.authenticate("github", {
+        session: false,
+        failureRedirect: "/api/sessions/badauth",
+      }),
+      gitHub
+    );
+
     this.post("/", ["USER", "ADMIN", "PREM"], me);
 
     this.post(
@@ -51,9 +74,9 @@ class SessionsRouter extends customRouter {
 
     this.get("/badauth", ["PUBLIC"], badauth);
 
-    this.post("/verify", ["PUBLIC"], verifyAccount)
+    this.post("/verify", ["PUBLIC"], verifyAccount);
 
-    this.post("/confirmed", ["PUBLIC"])
+    this.post("/confirmed", ["PUBLIC"]);
   }
 }
 

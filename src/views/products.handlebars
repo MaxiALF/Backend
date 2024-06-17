@@ -1,0 +1,37 @@
+<main>
+  <h3 class="mt-4 mb-4 text-center text-warning">My products</h3>
+  <section class="d-flex flex-wrap justify-content-evenly mb-4 mt-3">
+    {{#each products}}
+      <a
+        href="/products/{{this._id}}"
+        class="card bg-secondary m-3 text-decoration-none"
+        style="width: 300px"
+      >
+
+        <img
+          src="{{this.photo}}"
+          style="height: 240px"
+          class="card-img-top object-fit-cover"
+          alt="{{this.title}}"
+        />
+
+        <h5 class="p-2 text-center card-title text-white">{{this.title}}</h5>
+      </a>
+    {{/each}}
+  </section>
+  <span class="w-100 d-flex justify-content-center">
+    {{#if prev}}
+      <a
+        class="btn btn-warning fs-5 m-4 mt-0"
+        href="/?title={{filter}}&page={{prev}}"
+      > </a>
+    {{/if}}
+    {{#if next}}
+      <a
+        class="btn btn-warning fs-5 m-4 mt-0"
+        href="/?title={{filter}}&page={{next}}"
+      > > </a>
+    {{/if}}
+  </span>
+
+</main>

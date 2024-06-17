@@ -56,6 +56,15 @@ class ProductsController {
     }
   };
 
+  me = async (req, res, next) => {
+    try {
+      const products = await service.read({ filter: { owner_id: req.user._id } });
+      res.status(200).success200(products);
+    } catch (error) {
+      return next(error);
+    }
+  };
+
   readOne = async (req, res, next) => {
     try {
       const { pid } = req.params;
@@ -103,6 +112,6 @@ class ProductsController {
 export default ProductsController;
 
 const controller = new ProductsController();
-const { create, read, readOne, update, destroy } = controller;
+const { create, read, readOne, update, destroy, me } = controller;
 
-export { create, read, readOne, update, destroy };
+export { create, read, readOne, update, destroy, me };

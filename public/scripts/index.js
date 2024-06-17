@@ -6,6 +6,6 @@ document.querySelector("#search").addEventListener("click", async () => {
     const text = selector.value;
     location.search = "title=" + text;
   } catch (error) {
-    alert(error.message);
+    throw error
   }
 });
