@@ -4,7 +4,14 @@ class PaymentsService {
   constructor() {
     this.repository = repository;
   }
-  checkout = async (filter) => await this.repository.checkout(filter);
+  checkout = async (filter) => {
+    try {
+      const response = await this.repository.checkout(filter);
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 const service = new PaymentsService();

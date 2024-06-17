@@ -50,14 +50,26 @@ fetch("/api/sessions/", { method: "POST" })
       document
         .querySelector(".navbar-nav")
         .removeChild(document.querySelector("#btnOut"));
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#btnProfile"));
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#btnProd"));
     }
     if (res.response?.role === 0) {
       document
         .querySelector(".navbar-nav")
         .removeChild(document.querySelector("#btnForm"));
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#btnProd"));
     } else if (res.response?.role === 1) {
       document
         .querySelector(".navbar-nav")
         .removeChild(document.querySelector("#btnOrder"));
+      document
+        .querySelector(".navbar-nav")
+        .removeChild(document.querySelector("#btnProd"));
     }
   });

@@ -7,6 +7,7 @@ import {
   read,
   readOne,
   update,
+  me,
 } from "../../controllers/products.controller.js";
 import checkUser from "../../middlewares/isPrem.mid.js";
 
@@ -19,7 +20,8 @@ class ProductsRouter extends customRouter {
       propsProducts,
       create
     );
-    this.get("/", ["USER","ADMIN", "PREM"], read);
+    this.get("/", ["PUBLIC"], read);
+    this.get("/me",["PREM"], me);
     this.get("/:pid", ["PUBLIC"], readOne);
     this.put("/:pid", ["ADMIN", "PREM"], checkUser, update);
     this.delete("/:pid", ["ADMIN", "PREM"], checkUser, destroy);

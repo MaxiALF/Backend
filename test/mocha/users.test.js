@@ -70,7 +70,6 @@ describe("Test model users", () => {
         verifiedCode: "rgf601zwm701"
       });
     } catch (error) {
-        console.log(error.message);
       assert.strictEqual(error.message.includes("Invalid credentials"), true);
     }
   });

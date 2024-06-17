@@ -6,14 +6,18 @@ import sessionsRouter from "./sessions.router.api.js";
 import commentsRouter from "./comments.router.api.js";
 import passCallBackMid from "../../middlewares/passCallBack.mid.js";
 import logger from "../../utils/logger/index.js";
+import paymentsRouter from "./payments.router.api.js";
+import ticketsRouter from "./tickets.router.js";
 
 class ApiRouter extends customRouter {
   init() {
     this.use("/users", usersRouter);
     this.use("/products", productsRouter);
     this.use("/orders", passCallBackMid("jwt"), ordersRouter);
+    this.use("/tickets", ticketsRouter);
     this.use("/sessions", sessionsRouter);
     this.use("/comments", commentsRouter);
+    this.use("/payments", passCallBackMid("jwt"), paymentsRouter);
     this.get("/loggers", ["PUBLIC"], async (req, res, next) => {
       try {
         logger.HTTP("Hyper text menssage");

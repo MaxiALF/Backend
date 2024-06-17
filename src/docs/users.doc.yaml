@@ -30,6 +30,9 @@ components:
         password:
           type: string
           description: Password of user
+      example:
+        email: max98alf@gmail.com
+        password: hello123
 
     GitLogUser:
       type: object
@@ -40,12 +43,11 @@ components:
     updatePasswordUser:
       type: object
       properties:
-        oldPassword:
-          type: string
-          format: password
         newPassword:
           type: string
           format: password
+      example:
+        password: coder123 
 
   securitySchemes:
     cookieAuth:
@@ -126,10 +128,10 @@ components:
           description: Successfull Code
         message:
           type: string
-          description: message of response
+          description: Update password
       example:
         statusCode: 200
-        response: password updated!
+        response: password reset!
 
     res400user:
       type: object
@@ -142,7 +144,33 @@ components:
               description: message of error
       example:
         statusCode: 400
-        message: name is required
+        message: name, email & password are required!
+
+    res400userLog:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Bad request
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 400
+        message: email & password is required!
+
+    res400userPass:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          description: Bad request
+        message: 
+              type: string
+              description: message of error
+      example:
+        statusCode: 400
+        message: Password is required!
 
     res401:
       type: object
@@ -197,7 +225,7 @@ paths:
               $ref: '#/components/schemas/User'
       responses:
         '201':
-          description: Created
+          description: Registered!
           content:
             application/json:
               schema:
@@ -207,7 +235,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/res400'
+                $ref: '#/components/responses/res400user'
         '401':
           description: Unauthorized
           content:
@@ -223,7 +251,7 @@ paths:
 
   /api/sessions/login:
     post:
-      summary: Log in a user
+      summary: For user login
       tags:
         - User
       requestBody:
@@ -231,20 +259,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginRequest'
+              $ref: '#/components/schemas/LogUser'
       responses:
         '200':
-          description: User logged in successfully
+          description: Logged in!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/res200log'
+                $ref: '#/components/responses/res200log'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/res400'
+                $ref: '#/components/responses/res400userLog'
         '401':
           description: Unauthorized
           content:
@@ -254,22 +282,16 @@ paths:
 
   /api/sessions/github:
     post:
-      summary: Log in a user with GitHub
+      summary: Loggin with GitHub
       tags:
         - User
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GitHubLoginRequest'
       responses:
         '200':
-          description: User logged in successfully
+          description: Logged in with github!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/res200log'
+                $ref: '#/components/responses/res200log'
         '401':
           description: Unauthorized
           content:
@@ -286,21 +308,21 @@ paths:
         - cookieAuth: []
       responses:
         '200':
-          description: User logged in successfully
+          description: Signed out!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/res200signout'
-        '400':
+                $ref: '#/components/responses/res200signout'
+        '401':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/res400'
+                $ref: '#/components/responses/res401'
 
   /api/sessions/update-password:
     put:
-      summary: Update user password
+      summary: To update user password
       tags:
         - User
       requestBody:
@@ -308,23 +330,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdatePasswordRequest'
+              $ref: '#/components/schemas/updatePasswordUser'
       responses:
         '200':
-          description: User logged in successfully
+          description: Password updated!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/res200updated'
+                $ref: '#/components/responses/res200updated'
         '400':
           description: Bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/res400'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/res401'
+                $ref: '#/components/responses/res400userPass'

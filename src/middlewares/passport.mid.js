@@ -9,7 +9,7 @@ import UserDTO from "../dto/users.dto.js";
 import dao from "../data/index.factory.js";
 import env from "../utils/env.util.js";
 import errors from "../utils/errors/errors.js";
-import logger from "../utils/logger/index.js";
+import crypto from "crypto";
 
 const { users } = dao;
 const { GOOGLE_ID, GOOGLE_CLIENT, GIT_ID, GIT_CLIENT, PASS } = env;
@@ -47,7 +47,7 @@ passport.use(
         const verify = verifyHash(password, user.password);
         if (user?.verified && verify) {
           const token = createToken({ email, role: user.role });
-          req.token = token; 
+          req.token = token;
           return done(null, user);
         } else {
           return done(null, false, errors.auth);
@@ -105,24 +105,20 @@ passport.use(
     },
     async (req, accessToken, refreshToken, profile, done) => {
       try {
-      logger.INFO(profile);
-        let user = await users.readByEmail(profile.id);
-        if (user) {
-          req.session.email = user.email;
-          req.session.role = user.role;
-          return done(null, user);
-        } else {
+        let user = await users.readByEmail(profile._json.email);
+        if (!user) {
           user = {
-            email: profile.id,
-            name: profile.name.givenName,
-            photo: profile.coverPhoto,
+            email: profile._json.email,
+            name: profile._json.name,
+            photo: profile._json.avatar_url,
             password: createHash(profile.id),
+            verifiedCode: crypto.randomBytes(12).toString("base64"),
           };
           user = await users.create(user);
-          req.session.email = user.email;
-          req.session.role = user.role;
-          return done(null, user);
         }
+        req.session.email = user.email;
+        req.session.role = user.role;
+        return done(null, user);
       } catch (error) {
         return done(error);
       }
